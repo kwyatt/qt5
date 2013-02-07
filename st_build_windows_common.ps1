@@ -17,7 +17,7 @@ if ($osname -eq "win64")
 
 $version = $(git rev-parse HEAD)
 echo configuring ...
-.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake tools -nomake docs -nomake examples -nomake demos -nomake tests -mp -icu -platform win32-msvc2010 -angle -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir"
+.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake tools -nomake docs -nomake examples -nomake demos -nomake tests -mp -icu -angle -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

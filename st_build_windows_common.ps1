@@ -5,16 +5,9 @@ echo "downloading ICU..."
 $webclient = New-Object System.Net.WebClient
 $webclient.DownloadFile("http://repo.suitabletech.com/downloads/icu4c-50_1_2-$osname-msvc10.zip", "$(get-location)/icu.zip")
 
-function unzip($filename) 
-{ 
-  if (!(test-path $filename)) { throw "$filename does not exist" } 
-  $shell = new-object -com shell.application 
-  $shell.namespace($pwd.path).copyhere($shell.namespace((join-path $pwd $filename)).items(), 0x14) 
-}
-
 # Unzipping icu
 echo "unzipping ICU..."
-unzip("icu.zip")
+& ./unzip.exe "icu.zip"
 
 $icu_libdir = "$(get-location)\icu\lib"
 if ($osname -eq "win64")

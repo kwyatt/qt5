@@ -31,6 +31,12 @@ nmake install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
+# Copy ICU dlls into the install dir
+cp $(ls "$icu_libdir/*.dll") "$version/lib"
+cp $(ls "$icu_libdir/*.dll") "$version/bin"
+
+if ($LastExitCode -ne 0) { exit $LastExitCode }
+
 echo creating tarball...
 cmake -E tar cvzf "qt-$version-$osname.tar.gz" "$version"
 

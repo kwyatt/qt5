@@ -31,9 +31,13 @@ nmake install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
+echo "copying icu..."
 # Copy ICU dlls into the install dir
-cp $(ls "$icu_libdir/*.dll") "$version/lib"
-cp $(ls "$icu_libdir/*.dll") "$version/bin"
+ls "icu/bin/*.dll"
+cp -Verbose $(ls "icu/bin/*.dll") "$version/lib"
+cp -Verbose $(ls "icu/bin/*.dll") "$version/bin"
+
+ls "$version/lib/*icu*.dll"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

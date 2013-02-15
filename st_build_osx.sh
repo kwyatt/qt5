@@ -8,7 +8,7 @@ install_dir=$PWD/$version
 OSX_SDK=osxsdk-10.6-osx.tar.gz
 curl -o $OSX_SDK http://repo.suitabletech.com/downloads/osxsdk/$OSX_SDK
 tar xvzf $OSX_SDK
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -nomake demos -nomake docs -nomake tools -no-c++11 -platform macx-g++ -sdk $PWD/10.6
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -nomake demos -nomake docs -no-c++11 -platform macx-g++ -sdk $PWD/10.6
 
 make -j8
 make install

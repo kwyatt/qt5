@@ -10,9 +10,11 @@ echo "unzipping ICU..."
 & ./unzip.exe "icu.zip"
 
 $icu_libdir = "$(get-location)\icu\lib"
+$icu_bindir = "$(get-location)\icu\lib"
 if ($osname -eq "win64")
 {
   $icu_libdir = "$(get-location)\icu\lib64"
+  $icu_bindir = "$(get-location)\icu\bin64"
 }
 
 $version = $(git rev-parse HEAD)
@@ -34,8 +36,8 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "copying icu..."
 # Copy ICU dlls into the install dir
 ls "icu/bin/*.dll"
-cp -Verbose $(ls "icu/bin/*.dll") "$version/lib"
-cp -Verbose $(ls "icu/bin/*.dll") "$version/bin"
+cp -Verbose $(ls "$icu_bindir/*.dll") "$version/lib"
+cp -Verbose $(ls "$icu_bindir/*.dll") "$version/bin"
 
 ls "$version/lib/*icu*.dll"
 

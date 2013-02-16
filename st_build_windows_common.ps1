@@ -10,7 +10,7 @@ echo "unzipping ICU..."
 & ./unzip.exe "icu.zip"
 
 $icu_libdir = "$(get-location)\icu\lib"
-$icu_bindir = "$(get-location)\icu\lib"
+$icu_bindir = "$(get-location)\icu\bin"
 if ($osname -eq "win64")
 {
   $icu_libdir = "$(get-location)\icu\lib64"

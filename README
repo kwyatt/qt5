@@ -1,126 +1,43 @@
-HOW TO BUILD QT5
-================
+ABOUT
+
+This project aims to deliver widgets/components for Desktop usage on Qt Quick.
+
+Some more information can be found on the following blog entries:
+
+https://blog.qt.digia.com/blog/2011/03/10/qml-components-for-desktop/
+https://blog.qt.digia.com/blog/2011/05/26/table-view-with-qt-quick/
+https://blog.qt.digia.com/blog/2011/08/26/toplevel-windows-and-menus-with-qt-quick/
 
 
- Synopsis
- ========
+HELP
 
-   System requirements
-   ------------------
-
-    - Perl 5.8 or later
-    - Python 2.7 or later
-    - C++ compiler supporting the C++98 standard
-
-     For other platform specific requirements,
-     please see section "Setting up your machine" on:
-     http://qt-project.org/wiki/Get_The_Source
-
-   Optional requirements
-   ---------------------
-
-   - OpenSSL for SSL sockets or HTTPS
-   - Wayland
-
-   New dependencies in Qt 5
-   ------------------------
-
-     Linux: On systems running X11, the XCB libraries are required for
-     the platform plugin to build. qtbase/src/plugins/platforms/xcb/README
-     lists the required packages.
-
-     Qt 5 can make use of the ICU libraries providing Unicode and Globalization
-     support (see http://site.icu-project.org/). They are required for building
-     QtWebKit.
-     On Linux, they will be auto-detected.
-     On Windows, they need to be manually installed and the "include" and "lib"
-     folders of the ICU installation must be appended to the INCLUDE and LIB
-     environment variables after calling the Windows SDK setup script.
-     The "bin" folder of the ICU installation should be appended to the PATH
-     environment variable in order to for the DLLs to be found at run-time.
-
-   Linux, Mac:
-   -----------
-
-     cd <path>/qt-everywhere-opensource-src-<version>
-     ./configure -prefix $PWD/qtbase -opensource -nomake tests
-     make -j 4
-
-   Windows:
-   --------
-
-     Open a Windows SDK (7.0, 7.1 or later) command prompt. Ensure that the
-     following tools can be found in the path:
-     * Perl version 5.12 or later   [http://www.activestate.com/activeperl/]
-     * Python version 2.7 or later  [http://www.activestate.com/activepython/]
-     * Ruby version 1.9.3 or later  [http://rubyinstaller.org/]
-
-     cd <path>\qt-everywhere-opensource-src-<version>
-     configure -prefix %CD%\qtbase -opensource -nomake tests
-     nmake // jom // mingw32-make
-
-     For MinGW (gcc version 4.6 or later), ensure that the compiler can
-     be found in the path.
-
-     To accelerate the bootstrap of qmake with MSVC, it may be useful to pass
-     "-make-tool jom" on the configure command line. If you do not use jom,
-     adding "/MP" to the CL environment variable is a good idea.
-
- More details follow.
-
- Build!
- ======
-
- A typical `configure; make' build process is used.
-
- Some relevant configure options (see configure -help):
-
- -release              Compile and link Qt with debugging turned off.
- -debug                Compile and link Qt with debugging turned on.
- -nomake tests         Disable building of tests to speed up compilation
- -nomake examples      Disable building of examples to speed up compilation
- -confirm-license      Automatically acknowledge the LGPL 2.1 license.
-
- Example for a release build:
- (adjust the `-jN' parameter as appropriate for your system)
-
-   ./configure -prefix $PWD/qtbase -opensource
-   make -j4
-
- Example for a developer build:
- (enables more autotests, builds debug version of libraries, ...)
-
-   ./configure -developer-build -opensource
-   make -j4
-
- See output of `./configure -help' for documentation on various options to
- configure.
-
- The above examples will build whatever Qt5 modules have been enabled by
- default in the build system.
-
- It is possible to build selected modules with their dependencies by doing
- a `make module-<foo>'.  For example, to build only qtscript and qtwebkit,
- and the modules they depend on:
-
-   ./configure -prefix $PWD/qtbase -opensource
-   make -j4 module-qtscript module-qtwebkit
-
- This can save a lot of time if you are only interested in a subset of Qt5.
+If you have problems or questions, feel free to ask on the QML mailing list at qt-qml@qt.nokia.com
+or alternatively the Qt Developer Network: http://qt-project.org/forums/viewforum/12/
+You can also contact the maintainer at: jens.bache-wiig (at) digia (dot) com
 
 
- Hints
- =====
+INSTALLATION
 
- The submodule repository qtrepotools contains useful scripts for
- developers and release engineers. Consider adding qtrepotools/bin
- to your PATH environment variable to access them.
+Note the MINIMUM REQUIREMENT for this project is that you have Qt 5.0. (Qt Quick 2)
 
- The qt5_tool in qtrepotools has some more features which may be of interest.
- Try `qt5_tool --help'.
+The components rely on several C++ plugins in order to integrate with the desktop. To install the
+components into your Qt directory, simply enter the root directory and do:
+
+'qmake && make install'
+
+This will compile and copy the plugins and components into your QTDIR/qml folder.
+If you are compiling against a system Qt on linux, you might have to do a 'sudo make install'
+in order to install the project.
 
 
- Building Qt5 from git
- =====================
- See http://qt-project.org/wiki/Building-Qt-5-from-Git and README.git
- for more information.
+USAGE
+
+The examples should show how you can use the components. If you use code that makes use of
+Window or MenuBar, you will have to start your application with the desktopviewer launcher
+application. This is because it will ensure that the QMLViewer application itself does not
+show and make up the main window in your application.
+
+Again, please refer to :
+https://blog.qt.digia.com/blog/2011/08/26/toplevel-windows-and-menus-with-qt-quick/
+
+For more information on this.

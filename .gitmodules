@@ -6,7 +6,7 @@
 	url = git://gitorious.org/qt/qtsvg.git
 [submodule "qtdeclarative"]
 	path = qtdeclarative
-	url = git://gitorious.org/qt/qtdeclarative.git
+	url = git://github.com/jfaust/qtdeclarative.git
 [submodule "qtactiveqt"]
 	path = qtactiveqt
 	url = git://gitorious.org/qt/qtactiveqt.git
@@ -46,3 +46,6 @@
 [submodule "qtgraphicaleffects"]
 	path = qtgraphicaleffects
 	url = git://gitorious.org/qt/qtgraphicaleffects.git
+[submodule "qtdesktopcomponents"]
+	path = qtdesktopcomponents
+	url = git://gitorious.org/qtplayground/qtdesktopcomponents

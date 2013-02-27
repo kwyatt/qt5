@@ -5,7 +5,7 @@ echo "downloading ICU..."
 $webclient = New-Object System.Net.WebClient
 $webclient.DownloadFile("http://repo.suitabletech.com/downloads/icu4c-50_1_2-$osname-msvc10.zip", "$(get-location)/icu.zip")
 
-# Unzipping icu
+# Unzip icu
 echo "unzipping ICU..."
 & ./unzip.exe "icu.zip"
 
@@ -17,9 +17,16 @@ if ($osname -eq "win64")
   $icu_bindir = "$(get-location)\icu\bin64"
 }
 
+# Grab OpenSSL, which is required for https support
+echo "downloading openssl..."
+$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1e-$osname.zip", "$(get-location)/openssl.zip")
+
+echo "unzipping openssl..."
+& ./unzip.exe openssl.zip
+
 $version = $(git rev-parse HEAD)
 echo configuring ...
-.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake docs -nomake examples -nomake demos -nomake tests -mp -icu -angle -openssl -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir"
+.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake docs -nomake examples -nomake demos -nomake tests -mp -icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

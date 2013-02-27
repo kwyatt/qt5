@@ -50,6 +50,11 @@ ls "$version/lib/*icu*.dll"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
+# Copy openssl dlls into the install dir
+echo "copying openssl..."
+cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/lib"
+cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/bin"
+
 echo creating tarball...
 cmake -E tar cvzf "qt-$version-$osname.tar.gz" "$version"
 

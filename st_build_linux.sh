@@ -7,7 +7,7 @@ arch=$2
 version=`git rev-parse HEAD`
 install_dir=$PWD/$version
 
-./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake demos -nomake docs -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb
+./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake demos -nomake docs -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle
 
 make -j8
 make install

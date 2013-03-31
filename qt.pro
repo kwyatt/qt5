@@ -73,9 +73,9 @@ module_qtgraphicaleffects.subdir = qtgraphicaleffects
 module_qtgraphicaleffects.target = module-qtgraphicaleffects
 module_qtgraphicaleffects.depends = module_qtbase module_qtdeclarative
 
-module_qtdesktopcomponents.subdir = qtdesktopcomponents
-module_qtdesktopcomponents.target = module-qtdesktopcomponents
-module_qtdesktopcomponents.depends = module_qtbase module_qtdeclarative
+module_qtquickcontrols.subdir = qtquickcontrols
+module_qtquickcontrols.target = module-qtquickcontrols
+module_qtquickcontrols.depends = module_qtbase module_qtdeclarative
 
 # only qtbase is required to exist. The others may not - but it is the
 # users responsibility to ensure that all needed dependencies exist, or
@@ -131,4 +131,4 @@ exists(qtgraphicaleffects/qtgraphicaleffects.pro): SUBDIRS += module_qtgraphical
 exists(qttranslations/qttranslations.pro): SUBDIRS += module_qttranslations
 exists(qtdoc/qtdoc.pro): SUBDIRS += module_qtdoc
 exists(qtqa/qtqa.pro): SUBDIRS += module_qtqa
-exists(qtdesktopcomponents/qtdesktopcomponents.pro): SUBDIRS += module_qtdesktopcomponents
+exists(qtquickcontrols/qtquickcontrols.pro): SUBDIRS += module_qtquickcontrols

@@ -17,6 +17,10 @@ if ($osname -eq "win64")
   $icu_bindir = "$(get-location)\icu\bin64"
 }
 
+# Copy the icu dlls to the qtbase bin dir so they're available during the build,
+# which seems to be necessary for Qt 5.1
+cp -Verbose $(ls "$icu_bindir/*.dll") "$(get-location)/qtbase/bin"
+
 # Grab OpenSSL, which is required for https support
 echo "downloading openssl..."
 $webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1e-$osname.zip", "$(get-location)/openssl.zip")
@@ -42,8 +46,6 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo "copying icu..."
 # Copy ICU dlls into the install dir
-ls "icu/bin/*.dll"
-cp -Verbose $(ls "$icu_bindir/*.dll") "$version/lib"
 cp -Verbose $(ls "$icu_bindir/*.dll") "$version/bin"
 
 ls "$version/lib/*icu*.dll"
@@ -52,7 +54,6 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 # Copy openssl dlls into the install dir
 echo "copying openssl..."
-cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/lib"
 cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/bin"
 
 echo creating tarball...

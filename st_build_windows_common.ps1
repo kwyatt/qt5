@@ -35,12 +35,12 @@ echo configuring ...
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo building...
-jom
+$(get-location)/jom/jom
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing...
-jom install
+$(get-location)/jom/jom install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

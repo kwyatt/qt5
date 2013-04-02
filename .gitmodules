@@ -46,9 +46,6 @@
 [submodule "qtgraphicaleffects"]
 	path = qtgraphicaleffects
 	url = git://gitorious.org/qt/qtgraphicaleffects.git
-[submodule "qtdesktopcomponents"]
-	path = qtdesktopcomponents
-	url = git://gitorious.org/qtplayground/qtdesktopcomponents
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
-	url = git://qt.gitorious.org/qt/qtquickcontrols
+	url = git://github.com/jfaust/qtquickcontrols.git

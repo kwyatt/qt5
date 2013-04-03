@@ -35,12 +35,12 @@ echo configuring ...
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo building...
-& "$(get-location)\jom\jom"
+nmake
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing...
-& "$(get-location)\jom\jom" install
+nmake install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

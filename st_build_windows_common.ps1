@@ -31,7 +31,7 @@ echo configuring ...
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 # Setup PATH to include <qtbase>/lib and <icu>/bin, which seems to be necessary for Qt 5.1
-$env:PATH += ";$(icu_bindir);$(get-location)\qtbase\lib"
+$env:PATH += ";$icu_bindir;$(get-location)\qtbase\lib"
 
 echo building...
 nmake

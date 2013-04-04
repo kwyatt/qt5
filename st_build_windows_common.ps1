@@ -17,10 +17,6 @@ if ($osname -eq "win64")
   $icu_bindir = "$(get-location)\icu\bin64"
 }
 
-# Copy the icu dlls to the qtbase bin dir so they're available during the build,
-# which seems to be necessary for Qt 5.1
-cp -Verbose $(ls "$icu_bindir/*.dll") "$(get-location)/qtbase/bin"
-
 # Grab OpenSSL, which is required for https support
 echo "downloading openssl..."
 $webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1e-$osname.zip", "$(get-location)/openssl.zip")
@@ -33,6 +29,9 @@ echo configuring ...
 .\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake docs -nomake examples -nomake demos -nomake tests -nomake translations -mp -icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+
+# Setup PATH to include <qtbase>/lib and <icu>/bin, which seems to be necessary for Qt 5.1
+$env:PATH += ";$(icu_bindir);$(get-location)\qtbase\lib"
 
 echo building...
 nmake

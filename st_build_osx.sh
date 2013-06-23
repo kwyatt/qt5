@@ -5,7 +5,7 @@ set -e
 version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
 install_dir=$PWD/$version
 
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -nomake demos -nomake docs -no-c++11 -platform macx-clang
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -no-c++11 -platform macx-clang
 
 make -j8
 make install

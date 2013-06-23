@@ -26,7 +26,7 @@ echo "unzipping openssl..."
 
 $version = $(git rev-parse HEAD)
 echo configuring ...
-.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake docs -nomake examples -nomake demos -nomake tests -nomake translations -mp -icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
+.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

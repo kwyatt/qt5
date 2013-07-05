@@ -1,12 +1,12 @@
 [submodule "qtbase"]
 	path = qtbase
-	url = git://github.com/jfaust/qtbase.git
+	url = git://github.com/suitabletech/qtbase.git
 [submodule "qtsvg"]
 	path = qtsvg
 	url = git://gitorious.org/qt/qtsvg.git
 [submodule "qtdeclarative"]
 	path = qtdeclarative
-	url = git://github.com/jfaust/qtdeclarative.git
+	url = git://github.com/suitabletech/qtdeclarative.git
 [submodule "qtactiveqt"]
 	path = qtactiveqt
 	url = git://gitorious.org/qt/qtactiveqt.git
@@ -15,7 +15,7 @@
 	url = git://gitorious.org/qt/qtscript.git
 [submodule "qtmultimedia"]
 	path = qtmultimedia
-	url = git://github.com/jfaust/qtmultimedia.git
+	url = git://github.com/suitabletech/qtmultimedia.git
 [submodule "qttools"]
 	path = qttools
 	url = git://gitorious.org/qt/qttools.git
@@ -33,7 +33,7 @@
 	url = git://gitorious.org/qt/qtrepotools.git
 [submodule "qtwebkit"]
 	path = qtwebkit
-	url = git://github.com/jfaust/qtwebkit.git
+	url = git://github.com/suitabletech/qtwebkit.git
 [submodule "qtqa"]
 	path = qtqa
 	url = git://gitorious.org/qt/qtqa.git

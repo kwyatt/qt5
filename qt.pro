@@ -77,6 +77,10 @@ module_qtquickcontrols.subdir = qtquickcontrols
 module_qtquickcontrols.target = module-qtquickcontrols
 module_qtquickcontrols.depends = module_qtbase module_qtdeclarative
 
+module_qt3d.subdir = qt3d
+module_qt3d.target = module-qt3d
+module_qt3d.depends = module_qtbase module_qtdeclarative
+
 # only qtbase is required to exist. The others may not - but it is the
 # users responsibility to ensure that all needed dependencies exist, or
 # it may not build.
@@ -132,3 +136,4 @@ exists(qttranslations/qttranslations.pro): SUBDIRS += module_qttranslations
 exists(qtdoc/qtdoc.pro): SUBDIRS += module_qtdoc
 exists(qtqa/qtqa.pro): SUBDIRS += module_qtqa
 exists(qtquickcontrols/qtquickcontrols.pro): SUBDIRS += module_qtquickcontrols
+exists(qt3d/qt3d.pro): SUBDIRS += module_qt3d

@@ -49,3 +49,6 @@
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
 	url = git://github.com/suitabletech/qtquickcontrols.git
+[submodule "qt3d"]
+	path = qt3d
+	url = git://github.com/suitabletech/qt3d.git

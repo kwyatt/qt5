@@ -6,7 +6,7 @@ import subprocess
 import shutil
 from optparse import OptionParser
 
-# This script assumes that you have a 'sw-dev' checkout at the same level as this script
+# This script assumes that you have a 'sw-dev' checkout at the same level as this script (unless you pass --swdev)
 # and that the working directory is the qt5 repo
 
 def parse_options(args):
@@ -28,7 +28,7 @@ def swdevpath(path):
 dump_syms = {
   'Windows': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/windows/binaries/dump_syms.exe'),
   'Linux': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/linux/dump_syms/dump_syms'),
-  'Darwin': swdevpath('sw-dev/stacks/texas_videoconf/third_party/third_party/breakpad/tools/mac/dump_syms/build/Release/dump_syms')
+  'Darwin': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/mac/dump_syms/build/Release/dump_syms')
 }
 
 build_dump_syms = {

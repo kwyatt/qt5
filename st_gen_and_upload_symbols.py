@@ -55,5 +55,5 @@ args = ['python', symbolstore, dump_syms[platform.system()], 'symbols', '.']
 print args
 subprocess.check_call(args)
 
-cmd = ['python', symbolupload, 'symbols', '-o', options.os, '-c', 'Release']
+cmd = ['python', symbolupload, 'symbols', '-o', options.os, '-c', 'Final', '--software-channel', 'qt-symbols', '--software-version', '1']
 subprocess.check_call(cmd)

@@ -38,6 +38,10 @@ nmake
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
+python ./st_gen_and_upload_symbols.py --os $osname
+
+if ($LastExitCode -ne 0) { exit $LastExitCode }
+
 echo installing...
 nmake install
 

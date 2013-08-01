@@ -10,6 +10,9 @@ install_dir=$PWD/$version
 ./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake tests -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg
 
 make -j8
+
+python ./st_gen_and_upload_symbols.py --os linux
+
 make install
 
 tar cvzf qt-$version-linux-$arch.tar.gz ./$version

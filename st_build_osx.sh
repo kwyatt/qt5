@@ -8,6 +8,9 @@ install_dir=$PWD/$version
 ./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -no-c++11 -platform macx-clang
 
 make -j8
+
+python ./st_gen_and_upload_symbols.py --os macosx
+
 make install
 
 tar cvzf qt-$version-osx.tar.gz ./$version

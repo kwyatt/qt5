@@ -10,7 +10,7 @@ windows = platform.system() == 'Windows'
 linux = platform.system() == 'Linux'
 osx = platform.system() == 'Darwin'
 
-os.system('git clean -dfx')
+os.system('git clean -dfx --exclude=sw-dev')
 os.system('git submodule foreach --recursive "git clean -dfx"')
 os.system('perl %s/init-repository -f' % scriptdir)
 

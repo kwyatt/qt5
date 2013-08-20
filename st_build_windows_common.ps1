@@ -40,6 +40,7 @@ nmake
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
+echo building qtwebkit...
 # Configure and build qtwebkit separately, as it needs ICU
 cd qtwebkit
 & ../qtbase/bin/qmake QT_CONFIG+=icu
@@ -57,6 +58,13 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing...
 nmake install
+
+if ($LastExitCode -ne 0) { exit $LastExitCode }
+
+echo installing qtwebkit...
+cd qtwebkit
+nmake install
+cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

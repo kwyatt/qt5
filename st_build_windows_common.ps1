@@ -26,7 +26,9 @@ echo "unzipping openssl..."
 
 $version = $(git rev-parse HEAD)
 echo configuring ...
-.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
+# We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
+# with an ICU dependency, so we can ship installers without ICU (which is huge)
+.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
@@ -35,6 +37,17 @@ $env:PATH += ";$icu_bindir;$(get-location)\qtbase\lib"
 
 echo building...
 nmake
+
+if ($LastExitCode -ne 0) { exit $LastExitCode }
+
+# Configure and build qtwebkit separately, as it needs ICU
+cd qtwebkit
+& ../qtbase/bin/qmake QT_CONFIG+=icu
+
+if ($LastExitCode -ne 0) { exit $LastExitCode }
+
+nmake
+cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

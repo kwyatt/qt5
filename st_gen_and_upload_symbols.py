@@ -7,7 +7,7 @@ import shutil
 from optparse import OptionParser
 
 # This script assumes that you have a 'sw-dev' checkout at the same level as this script (unless you pass --swdev)
-# and that the working directory is the qt5 repo
+# and that the working directory is the qt5 build directory (which is the qt5 repo directory by default)
 
 def parse_options(args):
   parser = OptionParser()
@@ -48,11 +48,11 @@ shutil.rmtree('symbols', True)
 symbolstore = swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/symbolstore.py')
 symbolupload = swdevpath('stacks/texas_videoconf/scripts/upload_symbols.py')
 
-if (build_dump_syms[platform.system()]):
-  subprocess.check_call([build_dump_syms[platform.system()]])
+build = build_dump_syms[platform.system()]
+if (build):
+  subprocess.check_call([build])
 
 args = ['python', symbolstore, dump_syms[platform.system()], 'symbols', '.']
-print args
 subprocess.check_call(args)
 
 cmd = ['python', symbolupload, 'symbols', '-o', options.os, '-c', 'Final', '--software-channel', 'qt-symbols', '--software-version', '1']

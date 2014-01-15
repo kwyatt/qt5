@@ -10,7 +10,6 @@ modules = [
   'qtdoc',
   'qtgraphicaleffects',
   'qtimageformats',
-  'qtjsbackend',
   'qtmultimedia',
   'qtquickcontrols',
   'qtscript',
@@ -42,4 +41,4 @@ for m in modules:
     # local stable branch exists
     subprocess.check_call(['git', 'checkout', 'stable'], cwd=modulepath)
     subprocess.check_call(['git', 'pull', upstream_path, 'stable'], cwd=modulepath)
-  
+

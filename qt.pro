@@ -20,13 +20,9 @@ module_qtscript.subdir = qtscript
 module_qtscript.target = module-qtscript
 module_qtscript.depends = module_qtbase
 
-module_qtjsbackend.subdir = qtjsbackend
-module_qtjsbackend.target = module-qtjsbackend
-module_qtjsbackend.depends = module_qtbase
-
 module_qtdeclarative.subdir = qtdeclarative
 module_qtdeclarative.target = module-qtdeclarative
-module_qtdeclarative.depends = module_qtbase module_qtjsbackend
+module_qtdeclarative.depends = module_qtbase
 
 module_qtwebkit.file = qtwebkit/WebKit.pro
 module_qtwebkit.makefile = Makefile
@@ -100,7 +96,6 @@ exists(qtxmlpatterns/qtxmlpatterns.pro) {
     module_qtquick1.depends += module_qtxmlpatterns
 }
 
-exists(qtjsbackend/qtjsbackend.pro): SUBDIRS += module_qtjsbackend
 exists(qtdeclarative/qtdeclarative.pro) {
     SUBDIRS += module_qtdeclarative
     # These modules do not require qtdeclarative, but can use it if it is available

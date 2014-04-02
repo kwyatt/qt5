@@ -2,6 +2,13 @@ import os
 import os.path as path
 import sys
 import platform
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--android', dest='android', action='store_true')
+parser.add_argument('--arch', dest='arch', action='store')
+
+args = parser.parse_args()
 
 tc_conf = os.environ.get('TEAMCITY_BUILDCONF_NAME', None)
 
@@ -13,6 +20,12 @@ osx = platform.system() == 'Darwin'
 os.system('git clean -dfx --exclude=sw-dev')
 os.system('git submodule foreach --recursive "git clean -dfx"')
 os.system('perl %s/init-repository -f' % scriptdir)
+
+if args.android:
+  if not args.arch:
+    print >> sys.stderr, "Must specify arch when compiling for Android"
+    exit(-1)
+  exit(os.system(path.join(scriptdir, "st_build_android.sh %s" % args.arch)))
 
 if (windows):
   arch = 'win32'

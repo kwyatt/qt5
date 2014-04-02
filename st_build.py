@@ -25,7 +25,18 @@ if args.android:
   if not args.arch:
     print >> sys.stderr, "Must specify arch when compiling for Android"
     exit(-1)
-  exit(os.system(path.join(scriptdir, "st_build_android.sh %s" % args.arch)))
+  if osx:
+    plat = 'osx'
+  elif linux:
+    plat = 'linux'
+  else:
+    plat = 'win32'
+    if (tc_conf and tc_conf.lower().find('win64') != -1):
+      plat = 'win64'
+
+  print "st_build_android.sh %s %s" % (plat, args.arch)
+
+  exit(os.system(path.join(scriptdir, "st_build_android.sh %s %s" % (plat, args.arch))))
 
 if (windows):
   arch = 'win32'

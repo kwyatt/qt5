@@ -19,7 +19,7 @@ if ($osname -eq "win64")
 
 # Grab OpenSSL, which is required for https support
 echo "downloading openssl..."
-$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1e-$osname.zip", "$(get-location)/openssl.zip")
+$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1g-$osname.zip", "$(get-location)/openssl.zip")
 
 echo "unzipping openssl..."
 & ./unzip.exe openssl.zip

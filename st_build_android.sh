@@ -13,7 +13,7 @@ make -j8
 
 make install
 
-tar cvzf qt-$version-$os-android-$arch.tar.gz $install-dir
+tar cvzf qt-$version-$os-android-$arch.tar.gz $install_dir
 # Delete the version folder, since the way teamcity cleans things having a folder that's
 # also a revision is bad
-rm -rf $install-dir
+rm -rf $install_dir

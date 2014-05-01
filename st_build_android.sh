@@ -2,7 +2,7 @@
 
 set -e
 version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
-install_dir=$PWD/$version-android
+install_dir=$PWD/$version
 os=$1
 arch=${2:-armeabi-v7a}
 
@@ -13,7 +13,7 @@ make -j8
 
 make install
 
-tar cvzf qt-$version-$os-android-$arch.tar.gz $install_dir
+tar cvzf qt-$version-$os-android-$arch.tar.gz ./$version
 # Delete the version folder, since the way teamcity cleans things having a folder that's
 # also a revision is bad
-rm -rf $install_dir
+rm -rf ./$version

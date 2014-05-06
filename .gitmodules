@@ -52,3 +52,6 @@
 [submodule "qt3d"]
 	path = qt3d
 	url = git://github.com/suitabletech/qt3d.git
+[submodule "qtandroidextras"]
+	path = qtandroidextras
+	url = https://git.gitorious.org/qt/qtandroidextras.git

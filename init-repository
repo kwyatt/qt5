@@ -70,6 +70,12 @@ B<Global options:>
 Force initialization (even if the submodules are already checked out).
 
 
+=item --force-hooks
+
+Force initialization of hooks (even if there are already hooks in checked out
+submodules).
+
+
 =item --quiet, -q
 
 Be quiet.  Will exit cleanly if the repository is already initialized.
@@ -91,6 +97,8 @@ git repository.
 
 Only initialize the specified subset of modules given as the argument. Specified
 modules must already exist in .gitmodules.
+The string "all" results in cloning all known modules. The default is the set of
+maintained modules.
 
 =item --no-update
 
@@ -102,8 +110,6 @@ Skip the `git submodule update' command.
 Set git config to ignore submodules by default when doing operations on the
 qt5 repo, such as `pull', `fetch', `diff' etc.
 
-This option is default for --nokia-developer.
-
 After using this option, pass `--ignore-submodules=none' to git to override
 it as needed.
 
@@ -114,24 +120,15 @@ B<Repository options:>
 
 =over
 
-=item --nokia-developer
-
-Switch to internal Nokia URLs.
-
-
 =item --berlin
 
-Switch to internal Nokia URLs and make use of the Berlin git mirrors.
+Switch to internal URLs and make use of the Berlin git mirrors.
 (Implies `--mirror').
 
+=item --oslo
 
-=item --ssh
-
-Use the SSH protocol for git operations.  This may be useful if the git
-protocol is blocked by a firewall. Note that this requires a user account
-with an uploaded SSH key on all servers used.  (Implies `--nokia-developer').
-
-The `--ssh' option does not affect the gerrit remotes.
+Switch to internal URLs and make use of the Oslo git mirrors.
+(Implies `--mirror').
 
 
 =item --http
@@ -203,39 +200,76 @@ use Pod::Usage   qw( pod2usage           );
 use Cwd          qw( getcwd              );
 
 my %PROTOCOLS = (
-    'internal'  => 'git://scm.dev.nokia.troll.no/' ,
-    'ssh'       => 'git@scm.dev.nokia.troll.no:'   ,
     'http'      => 'http://git.gitorious.org/'     ,
 );
 
 my %GERRIT_REPOS = map { $_ => "qt/$_" } qw(
     qt3d
     qt5
-    qlalr
     qtactiveqt
+    qtandroidextras
     qtbase
     qtconnectivity
     qtdeclarative
     qtdoc
+    qtdocgallery
+    qtenginio
     qtfeedback
     qtgraphicaleffects
     qtimageformats
-    qtjsbackend
+    qtjsondb
     qtlocation
+    qtmacextras
     qtmultimedia
     qtpim
     qtqa
     qtquick1
+    qtquickcontrols
     qtrepotools
     qtscript
     qtsensors
+    qtserialport
     qtsvg
     qtsystems
     qttools
     qttranslations
     qtwayland
     qtwebkit
-    qtwebkit-examples-and-demos
+    qtwebkit-examples
+    qtwebsockets
+    qtwinextras
+    qtx11extras
+    qtxmlpatterns
+);
+
+my @DEFAULT_REPOS = qw(
+    qtactiveqt
+    qtandroidextras
+    qtbase
+    qtconnectivity
+    qtdeclarative
+    qtdoc
+    qtenginio
+    qtgraphicaleffects
+    qtimageformats
+    qtmacextras
+    qtmultimedia
+    qtqa
+    qtquick1
+    qtquickcontrols
+    qtlocation
+    qtrepotools
+    qtscript
+    qtsensors
+    qtserialport
+    qtsvg
+    qttools
+    qttranslations
+    qtwebsockets
+    qtwebkit
+    qtwebkit-examples
+    qtwinextras
+    qtx11extras
     qtxmlpatterns
 );
 
@@ -243,7 +277,10 @@ my $GERRIT_SSH_BASE
     = 'ssh://@USER@codereview.qt-project.org@PORT@/';
 
 my $BER_MIRROR_URL_BASE
-    = 'git://ber-git.europe.nokia.com/';
+    = 'git://hegel/';
+
+my $OSLO_MIRROR_URL_BASE
+    = 'git://qilin/';
 
 sub new
 {
@@ -281,23 +318,23 @@ sub parse_arguments
         'codereview-username' => "",
         'detach-alternates'   => 0 ,
         'force'               => 0 ,
+        'force-hooks'         => 0 ,
         'ignore-submodules'   => 0 ,
         'mirror-url'          => "",
-        'nokia-developer'     => 0 ,
         'protocol'            => "",
         'update'              => 1 ,
         'webkit'              => 1 ,
-        'module-subset'       => "",
+        'module-subset'       => join(",", @DEFAULT_REPOS),
     );
 
     GetOptionsFromArray(\@args,
         'alternates=s'      =>  \$self->{qw{ alternates        }},
         'codereview-username=s' => \$self->{qw{ codereview-username }},
         'copy-objects'      =>  \$self->{qw{ detach-alternates }},
-        'force'             =>  \$self->{qw{ force             }},
+        'force|f'           =>  \$self->{qw{ force             }},
+        'force-hooks'       =>  \$self->{qw{ force-hooks       }},
         'ignore-submodules' =>  \$self->{qw{ ignore-submodules }},
         'mirror=s'          =>  \$self->{qw{ mirror-url        }},
-        'nokia-developer'   =>  \$self->{qw{ nokia-developer   }},
         'quiet'             =>  \$self->{qw{ quiet             }},
         'update!'           =>  \$self->{qw{ update            }},
         'webkit!'           =>  \$self->{qw{ webkit            }},
@@ -305,30 +342,21 @@ sub parse_arguments
 
         'help|?'            =>  sub { pod2usage(1);               },
         'http'              =>  sub { $self->{protocol} = 'http'; },
-        'ssh|ssh-protocol'  =>  sub { $self->{protocol} = 'ssh';  },
 
-        'berlin|berlin-nokia-developer' => sub {
-            $self->{'nokia-developer'}   = 1;
-            $self->{'protocol'}          = 'internal';
+        'berlin' => sub {
             $self->{'mirror-url'}        = $BER_MIRROR_URL_BASE;
         },
-
-        'nokia-developer' => sub {
-            $self->{'nokia-developer'}   = 1;
-            $self->{'protocol'}          = 'internal';
-            $self->{'ignore-submodules'} = 1;
+        'oslo' => sub {
+            $self->{'mirror-url'}        = $OSLO_MIRROR_URL_BASE;
         },
     ) || pod2usage(2);
-
-    if ($self->{'nokia-developer'} && $self->{'protocol'} eq 'http') {
-        print "*** Ignoring use of HTTP protocol, as it's only usable with external server\n";
-        $self->{'protocol'} = '';
-    }
 
     # Replace any double trailing slashes from end of mirror
     $self->{'mirror-url'} =~ s{//+$}{/};
 
-    if ($self->{'module-subset'}) {
+    if ($self->{'module-subset'} eq "all") {
+        $self->{'module-subset'} = "";
+    } else {
         $self->{'module-subset'} = {
             map { $_ => 1 } split(qr{,}, $self->{'module-subset'})
         };
@@ -385,7 +413,7 @@ sub git_disable_webkit_submodule
     my ($self) = @_;
 
     $self->exe('git', 'config', '--remove', 'submodule.qtwebkit');
-    $self->exe('git', 'config', '--remove', 'submodule.qtwebkit-examples-and-demos');
+    $self->exe('git', 'config', '--remove', 'submodule.qtwebkit-examples');
 
     return;
 }
@@ -421,12 +449,7 @@ sub git_set_submodule_config
         my $value = $2;
 
         if ($protocol) {
-                # qt-labs projects are still hosted under qt internally.
-                if ($protocol ne 'http') {
-                    $value =~ s,^git://gitorious\.org/qt-labs/,${url_base_for_protocol}qt/,;
-                }
-
-                # assume all other projects hosted under gitorious publicly.
+                # rewrite URL to chosen protocol
                 $value =~ s,^git://gitorious\.org/,$url_base_for_protocol,;
         }
 
@@ -561,6 +584,38 @@ sub git_clone_one_submodule
     return;
 }
 
+sub ensure_link
+{
+    my ($self, $src, $tgt) = @_;
+    return if (!$self->{'force-hooks'} and -f $tgt);
+    unlink($tgt); # In case we have a dead symlink or pre-existing hook
+    print "Aliasing $src\n      as $tgt ...\n" if (!$self->{quiet});
+    return if eval { symlink($src, $tgt) };
+    # Windows doesn't do (proper) symlinks. As the post_commit script needs
+    # them to locate itself, we write a forwarding script instead.
+    open SCRIPT, ">".$tgt or die "Cannot create forwarding script $tgt: $!\n";
+    print SCRIPT "#!/bin/sh\nexec `dirname \$0`/$src \"\$\@\"\n";
+    close SCRIPT;
+}
+
+sub git_install_hooks
+{
+    my ($self) = @_;
+
+    return if (!-d 'qtrepotools/git-hooks');
+
+    chomp(my @modules = `git submodule foreach :`);
+    push @modules, "";
+    for my $module (@modules) {
+        $module =~ s,^Entering \'([^\']+)\'$,$1/,;
+        my $rel = $module;
+        $rel =~ s,[^/]+,..,g;
+        $rel .= "../../qtrepotools/git-hooks/";
+        $self->ensure_link($rel.'gerrit_commit_msg_hook', $module.'.git/hooks/commit-msg');
+        $self->ensure_link($rel.'git_post_commit_hook', $module.'.git/hooks/post-commit');
+    }
+}
+
 sub run
 {
     my ($self) = @_;
@@ -581,6 +636,8 @@ sub run
     $self->git_clone_all_submodules;
 
     $self->git_add_remotes('qt5');
+
+    $self->git_install_hooks;
 
     return;
 }

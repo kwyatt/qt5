@@ -243,6 +243,7 @@ my %GERRIT_REPOS = map { $_ => "qt/$_" } qw(
 );
 
 my @DEFAULT_REPOS = qw(
+    qt3d
     qtactiveqt
     qtandroidextras
     qtbase

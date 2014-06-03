@@ -10,9 +10,6 @@
 [submodule "qtactiveqt"]
 	path = qtactiveqt
 	url = git://gitorious.org/qt/qtactiveqt.git
-[submodule "qtscript"]
-	path = qtscript
-	url = git://gitorious.org/qt/qtscript.git
 [submodule "qtmultimedia"]
 	path = qtmultimedia
 	url = git://github.com/suitabletech/qtmultimedia.git

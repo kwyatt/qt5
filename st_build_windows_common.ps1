@@ -19,7 +19,7 @@ if ($osname -eq "win64")
 
 # Grab OpenSSL, which is required for https support
 echo "downloading openssl..."
-$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1g-$osname.zip", "$(get-location)/openssl.zip")
+$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.1h-$osname.zip", "$(get-location)/openssl.zip")
 
 echo "unzipping openssl..."
 & ./unzip.exe openssl.zip
@@ -28,7 +28,7 @@ $version = $(git rev-parse HEAD)
 echo configuring ...
 # We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
 # with an ICU dependency, so we can ship installers without ICU (which is huge)
-.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib"
+.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -no-feature-bearermanagement
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

@@ -12,7 +12,6 @@ modules = [
   'qtimageformats',
   'qtmultimedia',
   'qtquickcontrols',
-  'qtscript',
   'qtsvg',
   'qttools',
   'qttranslations',

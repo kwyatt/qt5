@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./configure -developer-build -debug-and-release -opensource -confirm-license -shared -nomake examples  -no-c++11 -platform macx-clang -skip qtwebkit
+./configure -developer-build -debug-and-release -opensource -confirm-license -shared -nomake examples  -no-c++11 -platform macx-clang -skip qtwebkit -no-feature-bearermanagement -no-compile-examples
 make -j8

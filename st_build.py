@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import os.path as path
 import sys
@@ -6,6 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--android', dest='android', action='store_true')
+parser.add_argument('--ios', dest='ios', action='store_true')
 parser.add_argument('--arch', dest='arch', action='store')
 
 args = parser.parse_args()
@@ -37,8 +40,9 @@ if args.android:
   print "st_build_android.sh %s %s" % (plat, args.arch)
 
   exit(os.system(path.join(scriptdir, "st_build_android.sh %s %s" % (plat, args.arch))))
-
-if (windows):
+elif args.ios:
+  exit(os.system(path.join(scriptdir, "st_build_ios.sh")))
+elif (windows):
   arch = 'win32'
   if (tc_conf and tc_conf.lower().find('win64') != -1):
     arch = 'win64'

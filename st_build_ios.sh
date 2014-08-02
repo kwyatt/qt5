@@ -4,7 +4,7 @@ set -e
 version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
 install_dir=$PWD/$version
 
-./configure -debug-and-release -opensource -confirm-license -xplatform macx-ios-clang -nomake tests -nomake examples -skip qttranslations -skip qtwebkit -no-warnings-are-errors
+./configure -prefix $install_dir -debug-and-release -opensource -confirm-license -xplatform macx-ios-clang -nomake tests -nomake examples -skip qttranslations -skip qtwebkit -no-warnings-are-errors -no-feature-bearermanagement
 
 make -j8
 # TODO generate and upload symbols

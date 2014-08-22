@@ -19,25 +19,36 @@ def parse_options(args):
 options = parse_options(sys.argv)
 
 if (not options.os):
-  print "--os [win32|win64|macosx|linux] is required"
+  print "--os [win32|win64|macosx|linux|android|ios] is required"
   sys.exit(1)
 
 def swdevpath(path):
   return os.path.join(options.swdev, path)
 
+win_dump_syms = swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/windows/binaries/dump_syms.exe')
+linux_dump_syms = swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/linux/dump_syms/dump_syms')
+mac_dump_syms = swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/mac/dump_syms/build/Release/dump_syms')
+
 dump_syms = {
-  'Windows': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/windows/binaries/dump_syms.exe'),
-  'Linux': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/linux/dump_syms/dump_syms'),
-  'Darwin': swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/mac/dump_syms/build/Release/dump_syms')
+  'win64': win_dump_syms,
+  'win32': win_dump_syms,
+  'linux': linux_dump_syms,
+  'android': linux_dump_syms,
+  'macosx': mac_dump_syms,
+  'ios': mac_dump_syms,
 }
+
+linux_build_dump_syms = swdevpath('build_scripts/build_dump_syms_linux.sh')
+mac_build_dump_syms = swdevpath('build_scripts/build_dump_syms_osx.sh')
 
 build_dump_syms = {
-  'Windows': None, 
-  'Linux': swdevpath('build_scripts/build_dump_syms_linux.sh'),
-  'Darwin': swdevpath('build_scripts/build_dump_syms_osx.sh')
+  'win32': None,
+  'win64': None,
+  'linux': linux_build_dump_syms,
+  'android': linux_build_dump_syms,
+  'macosx': mac_build_dump_syms,
+  'ios': mac_build_dump_syms,
 }
-
-windows = platform.system() == 'Windows'
 
 if (options.os == 'win64'):
   print "Symbol upload for x64 not yet supported. See http://code.google.com/p/google-breakpad/issues/detail?id=427"
@@ -48,11 +59,11 @@ shutil.rmtree('symbols', True)
 symbolstore = swdevpath('stacks/texas_videoconf/third_party/third_party/breakpad/tools/symbolstore.py')
 symbolupload = swdevpath('stacks/texas_videoconf/scripts/upload_symbols.py')
 
-build = build_dump_syms[platform.system()]
+build = build_dump_syms[options.os]
 if (build):
   subprocess.check_call([build])
 
-args = ['python', symbolstore, dump_syms[platform.system()], 'symbols', '.']
+args = ['python', symbolstore, dump_syms[options.os], 'symbols', '.']
 subprocess.check_call(args)
 
 cmd = ['python', symbolupload, 'symbols', '-o', options.os, '-c', 'Final', '--software-channel', 'qt-symbols', '--software-version', '1']

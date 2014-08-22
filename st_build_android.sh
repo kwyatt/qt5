@@ -9,7 +9,13 @@ arch=${2:-armeabi-v7a}
 ./configure -prefix $install_dir -release -opensource -confirm-license -shared -xplatform android-g++ -nomake tests -nomake examples -android-arch $arch -android-ndk $ANDROID_NDK_ROOT -android-sdk $ANDROID_SDK_ROOT -android-ndk-host $ANDROID_NDK_HOST -android-toolchain-version 4.8 -skip qttranslations -skip qtwebkit -no-warnings-are-errors -no-feature-bearermanagement
 
 make -j8
-# TODO generate and upload symbols
+
+# Symbol dumping only works on Linux, which has
+# the right elf headers
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+  python ./st_gen_and_upload_symbols.py --os android
+fi
 
 make install
 

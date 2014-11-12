@@ -19,8 +19,14 @@ modules = [
   'qtxmlpatterns',
 ]
 
+if len(sys.argv < 2):
+  print >> sys.stderr, "You must specify which branch to merge from (e.g. 5.4)"
+  exit(1)
+
+branch = sys.argv[1]
+
 clean = False
-if (len(sys.argv) > 1 and sys.argv[1] == '--clean'):
+if (len(sys.argv) > 2 and sys.argv[2] == '--clean'):
   clean = True
 
 for m in modules:
@@ -31,13 +37,13 @@ for m in modules:
     subprocess.check_call(['git', 'reset', '--hard', 'HEAD'], cwd=modulepath)
     subprocess.check_call(['git', 'clean', '-dfx'], cwd=modulepath)
 
-  print 'Updating %s stable branch to upstream' % m
+  print 'Updating %s %s branch to upstream' % (m, branch)
   upstream_path = 'git://qt.gitorious.org/qt/%s'%m
-  if (subprocess.call(['git', 'show-ref', '--verify', '--quiet', 'refs/heads/stable'], cwd=modulepath)):
+  if (subprocess.call(['git', 'show-ref', '--verify', '--quiet', 'refs/heads/%s' % branch], cwd=modulepath)):
     # local stable branch does not exist
-    subprocess.check_call(['git', 'fetch', upstream_path, 'stable:stable'], cwd=modulepath)
+    subprocess.check_call(['git', 'fetch', upstream_path, '%s:%s' % (branch, branch)], cwd=modulepath)
   else:
     # local stable branch exists
-    subprocess.check_call(['git', 'checkout', 'stable'], cwd=modulepath)
-    subprocess.check_call(['git', 'pull', upstream_path, 'stable'], cwd=modulepath)
+    subprocess.check_call(['git', 'checkout', branch], cwd=modulepath)
+    subprocess.check_call(['git', 'pull', upstream_path, branch], cwd=modulepath)
 

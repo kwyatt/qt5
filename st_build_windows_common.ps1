@@ -28,7 +28,7 @@ $version = $(git rev-parse HEAD)
 echo configuring ...
 # We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
 # with an ICU dependency, so we can ship installers without ICU (which is huge)
-.\configure.bat -debug-and-release -force-debug-info -no-vcproj -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -D QT_NO_BEARERMANAGEMENT
+.\configure.bat -release -force-debug-info -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -D QT_NO_BEARERMANAGEMENT
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
@@ -36,7 +36,8 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 $env:PATH += ";$icu_bindir;$(get-location)\qtbase\lib"
 
 echo building...
-nmake
+#nmake (jom is much faster)
+jom
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
@@ -47,23 +48,26 @@ cd qtwebkit
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
-nmake
+#nmake (jom is much faster)
+om
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
-python ./st_gen_and_upload_symbols.py --os $osname
+python ./st_gen_and_upload_symbols.py --os $osname --swdev ../sw-dev
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing...
-nmake install
+#nmake install
+jom install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing qtwebkit...
 cd qtwebkit
-nmake install
+#nmake install
+jom install
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
@@ -79,6 +83,10 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 # Copy openssl dlls into the install dir
 echo "copying openssl..."
 cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/bin"
+
+# Remove the pdb files from the build since the
+# symbols have already been converted and uploaded to the server
+get-childitem ./$version -include *.pdb -recurse | foreach ($_) {remove-item $_.fullname}
 
 echo creating tarball...
 cmake -E tar cvzf "qt-$version-$osname.tar.gz" "$version"

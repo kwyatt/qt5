@@ -5,9 +5,7 @@ set -e
 version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
 install_dir=$PWD/$version
 
-# See NCA-6261 and NCA-5990 for -no-harfbuzz rationale.
-# FIXME: Revisit when updating Qt to 5.4.
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -no-c++11 -platform macx-clang -no-feature-bearermanagement -no-harfbuzz
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -platform macx-clang -no-feature-bearermanagement
 
 make -j8
 

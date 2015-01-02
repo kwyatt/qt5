@@ -49,7 +49,7 @@ cd qtwebkit
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 #nmake (jom is much faster)
-om
+jom
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }

@@ -37,7 +37,7 @@ $env:PATH += ";$icu_bindir;$(get-location)\qtbase\lib"
 
 echo building...
 #nmake (jom is much faster)
-jom
+& "$(get-location)\jom\jom"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
@@ -49,25 +49,25 @@ cd qtwebkit
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 #nmake (jom is much faster)
-jom
+& "$(get-location)\jom\jom"
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
-python ./st_gen_and_upload_symbols.py --os $osname --swdev ../sw-dev
+python ./st_gen_and_upload_symbols.py --os $osname
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing...
 #nmake install
-jom install
+& "$(get-location)\jom\jom" install
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo installing qtwebkit...
 cd qtwebkit
 #nmake install
-jom install
+& "$(get-location)\jom\jom" install
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }

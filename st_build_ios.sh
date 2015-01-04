@@ -8,7 +8,8 @@ install_dir=$PWD/$version
 
 make -j8
 
-python ./st_gen_and_upload_symbols.py --os ios
+# Static build, don't need symbols until after link
+# python ./st_gen_and_upload_symbols.py --os ios
 
 make install
 

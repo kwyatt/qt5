@@ -49,7 +49,7 @@ cd qtwebkit
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 #nmake (jom is much faster)
-& "$(get-location)\jom\jom"
+& "$(get-location)\..\jom\jom"
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
@@ -67,7 +67,7 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo installing qtwebkit...
 cd qtwebkit
 #nmake install
-& "$(get-location)\jom\jom" install
+& "$(get-location)\..\jom\jom" install
 cd ..
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }

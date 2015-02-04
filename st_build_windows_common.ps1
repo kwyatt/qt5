@@ -28,7 +28,7 @@ $version = $(git rev-parse HEAD)
 echo configuring ...
 # We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
 # with an ICU dependency, so we can ship installers without ICU (which is huge)
-.\configure.bat -release -force-debug-info -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -D QT_NO_BEARERMANAGEMENT
+.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -D QT_NO_BEARERMANAGEMENT
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 

@@ -7,9 +7,6 @@
 [submodule "qtdeclarative"]
 	path = qtdeclarative
 	url = git://github.com/suitabletech/qtdeclarative.git
-[submodule "qtactiveqt"]
-	path = qtactiveqt
-	url = git://gitorious.org/qt/qtactiveqt.git
 [submodule "qtmultimedia"]
 	path = qtmultimedia
 	url = git://github.com/suitabletech/qtmultimedia.git

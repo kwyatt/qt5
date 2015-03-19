@@ -3,7 +3,7 @@
 	url = git://github.com/suitabletech/qtbase.git
 [submodule "qtsvg"]
 	path = qtsvg
-	url = git://gitorious.org/qt/qtsvg.git
+	url = git://code.qt.io/qt/qtsvg.git
 [submodule "qtdeclarative"]
 	path = qtdeclarative
 	url = git://github.com/suitabletech/qtdeclarative.git
@@ -15,31 +15,28 @@
 	url = git://github.com/suitabletech/qttools.git
 [submodule "qtxmlpatterns"]
 	path = qtxmlpatterns
-	url = git://gitorious.org/qt/qtxmlpatterns.git
+	url = git://code.qt.io/qt/qtxmlpatterns.git
 [submodule "qttranslations"]
 	path = qttranslations
-	url = git://gitorious.org/qt/qttranslations.git
+	url = git://code.qt.io/qt/qttranslations.git
 [submodule "qtdoc"]
 	path = qtdoc
-	url = git://gitorious.org/qt/qtdoc.git
+	url = git://code.qt.io/qt/qtdoc.git
 [submodule "qtrepotools"]
 	path = qtrepotools
-	url = git://gitorious.org/qt/qtrepotools.git
+	url = git://code.qt.io/qt/qtrepotools.git
 [submodule "qtwebkit"]
 	path = qtwebkit
 	url = git://github.com/suitabletech/qtwebkit.git
 [submodule "qtqa"]
 	path = qtqa
-	url = git://gitorious.org/qt/qtqa.git
-[submodule "qtjsbackend"]
-	path = qtjsbackend
-	url = git://gitorious.org/qt/qtjsbackend.git
+	url = git://code.qt.io/qt/qtqa.git
 [submodule "qtimageformats"]
 	path = qtimageformats
-	url = git://gitorious.org/qt/qtimageformats.git
+	url = git://code.qt.io/qt/qtimageformats.git
 [submodule "qtgraphicaleffects"]
 	path = qtgraphicaleffects
-	url = git://gitorious.org/qt/qtgraphicaleffects.git
+	url = git://code.qt.io/qt/qtgraphicaleffects.git
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
 	url = git://github.com/suitabletech/qtquickcontrols.git
@@ -48,4 +45,4 @@
 	url = git://github.com/suitabletech/qt3d.git
 [submodule "qtandroidextras"]
 	path = qtandroidextras
-	url = https://git.gitorious.org/qt/qtandroidextras.git
+	url = git://code.qt.io/qt/qtandroidextras.git

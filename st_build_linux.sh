@@ -32,7 +32,7 @@ echo "Install directory: $install_dir"
 echo "===== Parsed arguments."
 
 echo "===== Configuring Qt..."
-./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake tests -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-feature-bearermanagement
+./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake tests -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-feature-bearermanagement -no-dbus
 echo "===== Configured Qt."
 
 echo "===== Making Qt..."

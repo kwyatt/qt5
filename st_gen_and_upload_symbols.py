@@ -16,8 +16,8 @@ if __name__ == '__main__':
     ##### Parse arguments #####
     swdev_default = os.environ.get('TEXBUILD_ROOT', 'sw-dev')
     parser = argparse.ArgumentParser()
-    parser.add_argument("--swdev", dest="swdev", default=swdev_default, type=str)
-    parser.add_argument("--os", dest="os", default=None, type=str,
+    parser.add_argument('--swdev', dest='swdev', action='store', default=swdev_default, type=str)
+    parser.add_argument('--os', dest='os', action='store', default=None, type=str,
                         choices=['win32', 'win64', 'macosx', 'linux', 'android', 'ios'], required=True)
     args = parser.parse_args()
 

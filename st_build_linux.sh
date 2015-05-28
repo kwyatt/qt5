@@ -77,4 +77,6 @@ echo "===== Generated tarball."
 
 # Delete the version folder, since the way teamcity cleans things having a folder that's
 # also a revision is bad
-#rm -rf ./$version
+echo "===== Deleting intermediate folder..."
+rm -rf ./$version
+echo "===== Deleted intermediate folder."

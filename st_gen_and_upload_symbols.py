@@ -71,8 +71,8 @@ if __name__ == '__main__':
         subprocess.check_call([build])
 
     ##### Store symbols #####
-    args = ['python', symbolstore, dump_syms[args.os], 'symbols', '.']
-    subprocess.check_call(args)
+    cmd = ['python', symbolstore, dump_syms[args.os], 'symbols', '.']
+    subprocess.check_call(cmd)
 
     ##### Upload symbols #####
     cmd = ['python', symbolupload, 'symbols', '-o', args.os, '-c', 'Final', '--software-channel', 'qt-symbols', '--software-version', '1']

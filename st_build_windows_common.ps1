@@ -12,19 +12,23 @@ echo "unzipping ICU..."
 $icu_libdir = "$(get-location)\icu53_1\lib"
 $icu_bindir = "$(get-location)\icu53_1\bin"
 
-# Grab OpenSSL, which is required for https support
-echo "downloading openssl..."
-$webclient.DownloadFile("http://repo.suitabletech.com/downloads/openssl-1.0.2a-$osname-msvc2013.zip", "$(get-location)/openssl.zip")
+# Grab LibreSSL, an OpenSSL replacement which is required for https support
+# We can't use OpenSSL because of http://rt.openssl.org/Ticket/Display.html?id=3828&user=guest&pass=guest
+echo "downloading libressl..."
+$webclient.DownloadFile("http://repo.suitabletech.com/downloads/libressl-2.2.1-windows.zip", "$(get-location)/libressl.zip")
 
-echo "unzipping openssl..."
-& ./unzip.exe openssl.zip
+echo "unzipping libressl..."
+& ./unzip.exe libressl.zip
 
 $version = $(git rev-parse HEAD)
 echo configuring ...
 # We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
 # with an ICU dependency, so we can ship installers without ICU (which is huge)
 
-.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-lssleay32 -llibeay32" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\openssl\include" -L "$(get-location)\openssl\lib" -D QT_NO_BEARERMANAGEMENT -platform win32-msvc2013
+if ($osname -eq "win32") { $libressl_lib = "$(get-location)\libressl\x86" }
+else { $libressl_lib = "$(get-location)\libressl\x64" }
+
+.\configure.bat -debug-and-release -force-debug-info -opensource -confirm-license -shared -nomake examples -nomake tests -mp -no-icu -angle -openssl-linked OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4" -prefix "$(get-location)\$version" -I "$(get-location)\icu\include" -L "$icu_libdir" -I "$(get-location)\libressl\include" -L $libressl_lib -D QT_NO_BEARERMANAGEMENT -platform win32-msvc2013
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
@@ -71,15 +75,15 @@ if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo "copying icu..."
 # Copy ICU dlls into the install dir
-cp -Verbose $(ls "$icu_bindir/*.dll") "$version/bin"
+cp -Verbose $(ls "$icu_libdir/*.dll") "$version/bin"
 
 ls "$version/lib/*icu*.dll"
 
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
-# Copy openssl dlls into the install dir
-echo "copying openssl..."
-cp -Verbose "$(get-location)/openssl/bin/*.dll" "$version/bin"
+# Copy libressl dlls into the install dir
+echo "copying libressl..."
+cp -Verbose "$libressl_lib/*.dll" "$version/bin"
 
 # Remove the pdb files from the build since the
 # symbols have already been converted and uploaded to the server

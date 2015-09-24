@@ -31,7 +31,7 @@ tags
 Makefile*
 *.prl
 *.app
-*.pro.user
+*.pro.user*
 *.qmlproject.user*
 moc_*.cpp
 ui_*.h

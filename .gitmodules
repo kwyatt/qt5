@@ -3,7 +3,7 @@
 	url = git://github.com/suitabletech/qtbase.git
 [submodule "qtsvg"]
 	path = qtsvg
-	url = git://code.qt.io/qt/qtsvg.git
+	url = git://github.com/suitabletech/qtsvg.git
 [submodule "qtdeclarative"]
 	path = qtdeclarative
 	url = git://github.com/suitabletech/qtdeclarative.git

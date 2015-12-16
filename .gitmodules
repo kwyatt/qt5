@@ -15,7 +15,7 @@
 	url = git://code.qt.io/qt/qttools.git
 [submodule "qtxmlpatterns"]
 	path = qtxmlpatterns
-	url = git://code.qt.io/qt/qtxmlpatterns.git
+	url = git://github.com/suitabletech/qtxmlpatterns.git
 [submodule "qttranslations"]
 	path = qttranslations
 	url = git://code.qt.io/qt/qttranslations.git

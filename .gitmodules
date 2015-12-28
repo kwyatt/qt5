@@ -36,7 +36,7 @@
 	url = git://code.qt.io/qt/qtimageformats.git
 [submodule "qtgraphicaleffects"]
 	path = qtgraphicaleffects
-	url = git://code.qt.io/qt/qtgraphicaleffects.git
+        url = git://github.com/suitabletech/qtgraphicaleffects.git
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
 	url = git://github.com/suitabletech/qtquickcontrols.git

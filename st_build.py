@@ -9,6 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--android', dest='android', action='store_true')
 parser.add_argument('--ios', dest='ios', action='store_true')
+parser.add_argument('--nacl', dest='nacl', action='store_true')
 parser.add_argument('--arch', dest='arch', action='store')
 
 args = parser.parse_args()
@@ -40,6 +41,14 @@ if args.android:
   print "st_build_android.sh %s %s" % (plat, args.arch)
 
   exit(os.system(path.join(scriptdir, "st_build_android.sh %s %s" % (plat, args.arch))))
+elif args.nacl:
+  if osx:
+    build_os = 'osx'
+    plat = 'mac'
+  elif linux:
+    build_os = 'linux'
+    plat = 'linux'
+  exit(os.system(path.join(scriptdir, "st_build_nacl.sh %s %s" % (build_os, plat))))
 elif args.ios:
   exit(os.system(path.join(scriptdir, "st_build_ios.sh")))
 elif (windows):

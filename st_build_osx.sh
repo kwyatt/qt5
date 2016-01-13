@@ -5,7 +5,9 @@ set -e
 version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
 install_dir=$PWD/$version
 
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -nomake examples -platform macx-clang -no-feature-bearermanagement
+source st_set_swdev.sh
+
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -platform macx-clang -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -nomake examples -nomake tests -no-compile-examples -no-feature-bearermanagement
 
 make -j8
 

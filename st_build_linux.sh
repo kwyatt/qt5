@@ -2,7 +2,7 @@
 
 set -e
 
-echo "===== Parsing arguments"
+echo "===== Parsing arguments..."
 bits=$1
 if [[ -z "$bits" ]]; then
   if [[ "$(uname -m)" == "x86_64" ]]; then
@@ -28,16 +28,15 @@ echo "Version: $version"
 
 install_dir=$PWD/$version
 echo "Install directory: $install_dir"
-
 echo "===== Parsed arguments."
 
 echo "===== Configuring Qt..."
-./configure -prefix $install_dir -release -platform linux-g++-$bits -opensource -confirm-license -shared -nomake examples -nomake tests -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-feature-bearermanagement -no-dbus
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -platform linux-g++-$bits -nomake examples -nomake tests -no-compile-examples -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-feature-bearermanagement -no-dbus
 echo "===== Configured Qt."
 
 echo "===== Making Qt..."
 make -j8
-echo "===== Made Qt..."
+echo "===== Made Qt."
 
 echo "===== Uploading symbols..."
 python ./st_gen_and_upload_symbols.py --os linux
@@ -63,7 +62,7 @@ for f in $version/lib/*; do
 done
 iculibs=$(echo -e $iculibs | tr " " "\n" | sort -u)
 echo -e "$iculibs"
-echo "===== Scanned libicu dependencies"
+echo "===== Scanned libicu dependencies."
 
 echo "===== Copying libicu dependencies..."
 for f in $iculibs; do

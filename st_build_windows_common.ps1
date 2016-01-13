@@ -8,13 +8,13 @@ $version = $(git rev-parse HEAD)
 
 # Get sw-dev directory.
 $sw_dev = "$(get-location)\sw-dev"
-if (-not (test-path "$sw-dev" -pathtype container)) {
+if (-not (test-path "$sw_dev" -pathtype container)) {
   $sw_dev = "$env:QT_BUILD_SWDEV"
-  if (-not $sw_dev) {
+  if (-not "$sw_dev") {
     echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path."
     exit 1;
   }
-  if (-not (test-path "$sw-dev" -pathtype container)) {
+  if (-not (test-path "$sw_dev" -pathtype container)) {
     echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path; `"$sw_dev`" does not exist."
     exit 1;
   }

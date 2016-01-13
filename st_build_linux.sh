@@ -26,6 +26,9 @@ fi
 version=`git rev-parse HEAD`
 echo "Version: $version"
 
+source st_set_swdev.sh
+echo "SW-DEV: $SW_DEV"
+
 install_dir=$PWD/$version
 echo "Install directory: $install_dir"
 echo "===== Parsed arguments."
@@ -39,7 +42,7 @@ make -j8
 echo "===== Made Qt."
 
 echo "===== Uploading symbols..."
-python ./st_gen_and_upload_symbols.py --os linux
+python ./st_gen_and_upload_symbols.py --os linux --swdev "$SW_DEV"
 echo "===== Uploading symbols."
 
 echo "===== Installing Qt to staging directory..."

@@ -6,11 +6,25 @@ $webclient = New-Object System.Net.WebClient
 # Get the HEAD changeset which will be used to name the install folder
 $version = $(git rev-parse HEAD)
 
+# Get sw-dev directory.
+$sw_dev = "$(get-location)\sw-dev"
+if (-not (test-path "$sw-dev" -pathtype container)) {
+  $sw_dev = "$env:QT_BUILD_SWDEV"
+  if (-not $sw_dev) {
+    echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path."
+    exit 1;
+  }
+  if (-not (test-path "$sw-dev" -pathtype container)) {
+    echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path; `"$sw_dev`" does not exist."
+    exit 1;
+  }
+}
+
 echo "===== Downloading third-party dependencies..."
 if ($osname -eq "win32") {
-  cmake -D WIN32=1 -D X86=1 -D SW_DEV="$env:QT_BUILD_SWDEV" -P .\st_third_party.cmake
+  cmake -D WIN32=1 -D X86=1 -D SW_DEV="$sw_dev" -P .\st_third_party.cmake
 } else {
-  cmake -D WIN32=1 -D SW_DEV="$env:QT_BUILD_SWDEV" -P .\st_third_party.cmake
+  cmake -D WIN32=1 -D SW_DEV="$sw_dev" -P .\st_third_party.cmake
 }
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 $third_party_dir = "$env:APPDATA\bacon\thirdparty"
@@ -48,7 +62,7 @@ cd ..
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo "===== Generating and uploading symbols..."
-python .\st_gen_and_upload_symbols.py --os $osname
+python .\st_gen_and_upload_symbols.py --os $osname --swdev "$sw_dev"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 
 echo "===== Installing Qt..."

@@ -1,6 +1,11 @@
 @echo off
 setLocal enableExtensions
 
+if not exist "%QT_BUILD_SWDEV%" (
+  echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path; %QT_BUILD_SWDEV% does not exist"
+  exit /b 1
+)
+
 set BUILD_DIRECTORY=%CD%
 set SOURCE_DIRECTORY=%~dp0
 if %SOURCE_DIRECTORY:~-1%==\ set SOURCE_DIRECTORY=%SOURCE_DIRECTORY:~0,-1%

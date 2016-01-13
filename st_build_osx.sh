@@ -11,7 +11,7 @@ source st_set_swdev.sh
 
 make -j8
 
-python ./st_gen_and_upload_symbols.py --os macosx
+python ./st_gen_and_upload_symbols.py --os macosx --swdev "$SW_DEV"
 
 make install
 

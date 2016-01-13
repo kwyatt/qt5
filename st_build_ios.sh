@@ -14,7 +14,7 @@ OPENSSL_LIBS=" " ./configure -prefix $install_dir -debug-and-release -opensource
 make -j8
 
 # Static build; don't need symbols until after link
-# python ./st_gen_and_upload_symbols.py --os ios
+# python ./st_gen_and_upload_symbols.py --os ios --swdev "$SW_DEV"
 
 make install
 

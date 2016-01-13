@@ -18,7 +18,7 @@ make -j8
 # the right elf headers
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
-  python ./st_gen_and_upload_symbols.py --os android
+  python ./st_gen_and_upload_symbols.py --os android --swdev "$SW_DEV"
 fi
 
 make install

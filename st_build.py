@@ -37,9 +37,7 @@ if args.android:
     plat = 'win32'
     if (tc_conf and tc_conf.lower().find('win64') != -1):
       plat = 'win64'
-
   print "st_build_android.sh %s %s" % (plat, args.arch)
-
   exit(os.system(path.join(scriptdir, "st_build_android.sh %s %s" % (plat, args.arch))))
 elif args.nacl:
   if osx:
@@ -55,14 +53,13 @@ elif (windows):
   arch = 'win32'
   if (tc_conf and tc_conf.lower().find('win64') != -1):
     arch = 'win64'
-
-  exit(os.system(path.join(scriptdir, "st_build_%s.bat"%arch)))
+  exit(os.system(path.join(scriptdir, "st_build_%s.bat" % arch)))
 elif (linux):
   bits = '64'
   arch = 'x64'
   if (tc_conf and tc_conf.lower().find('linux32') != -1):
     bits = '32'
     arch = 'x86'
-  exit(os.system(path.join(scriptdir, "st_build_linux.sh %s %s"%(bits, arch))))
+  exit(os.system(path.join(scriptdir, "st_build_linux.sh %s %s" % (bits, arch))))
 elif (osx):
   exit(os.system(path.join(scriptdir, "st_build_osx.sh")))

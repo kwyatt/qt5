@@ -1,6 +1,8 @@
 @echo off
 setLocal enableExtensions
 
+rem This is intended to be run from the Visual Studio Command Prompt for the desired Visual Studio version.
+
 if not exist "%QT_BUILD_SWDEV%" (
   echo "Please set QT_BUILD_SWDEV to a valid sw-dev directory path; %QT_BUILD_SWDEV% does not exist"
   exit /b 1

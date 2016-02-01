@@ -2,15 +2,14 @@
 
 set -e
 
-git_bin=${TEAMCITY_GIT_PATH:-"git"}
-version=`$git_bin rev-parse HEAD`
+version=`"$TEAMCITY_GIT_PATH" rev-parse HEAD`
 install_dir=$PWD/$version
 os=$1
 arch=${2:-armeabi-v7a}
 
 source st_set_swdev.sh
 
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -xplatform android-g++ -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl -nomake examples -nomake tests -skip qttranslations -skip qtwebkit -no-compile-examples -no-dbus -no-feature-bearermanagement -no-warnings-are-errors -android-sdk $ANDROID_SDK_ROOT -android-ndk $ANDROID_NDK_ROOT -android-ndk-host $ANDROID_NDK_HOST -android-arch $arch -android-toolchain-version 4.8
+./configure -prefix $install_dir -release -commercial -confirm-license -shared -xplatform android-g++ -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl -nomake examples -nomake tests -skip qttranslations -skip qtwebkit -no-compile-examples -no-dbus -no-feature-bearermanagement -no-warnings-are-errors -android-sdk $ANDROID_SDK_ROOT -android-ndk $ANDROID_NDK_ROOT -android-ndk-host $ANDROID_NDK_HOST -android-arch $arch -android-toolchain-version 4.8
 
 make -j8
 

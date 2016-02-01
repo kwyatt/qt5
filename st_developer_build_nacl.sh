@@ -25,6 +25,6 @@ if [[ "$platform" == 'unknown' ]]; then
   exit 1
 fi
 
-"$SOURCE_DIRECTORY/qtbase/nacl-configure" ${platform}_pnacl release 64 x86_64 -force-debug-info -developer-build -openssl-linked -I "$QT_BUILD_SWDEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include"
+"$SOURCE_DIRECTORY/qtbase/nacl-configure" ${platform}_pnacl release 64 x86_64 -force-debug-info -developer-build -opensource -openssl-linked -I "$QT_BUILD_SWDEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include"
 
 make -j6 module-qtbase module-qtdeclarative module-qtmultimedia module-qt3d module-qtsvg module-qtxmlpatterns module-qtquickcontrols module-qtgraphicaleffects

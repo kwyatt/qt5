@@ -4,7 +4,7 @@ $osname = $args[0]
 $webclient = New-Object System.Net.WebClient
 
 # Get the HEAD changeset which will be used to name the install folder
-$version = $(git rev-parse HEAD)
+$version = $(& "$env:TEAMCITY_GIT_PATH" rev-parse HEAD)
 
 # Get sw-dev directory.
 $sw_dev = "$(get-location)\sw-dev"

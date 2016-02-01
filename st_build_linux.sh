@@ -23,7 +23,7 @@ else
   echo "Architecture: $arch (user specified)"
 fi
 
-version=`git rev-parse HEAD`
+version=`"$TEAMCITY_GIT_PATH" rev-parse HEAD`
 echo "Version: $version"
 
 source st_set_swdev.sh

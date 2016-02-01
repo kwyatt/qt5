@@ -2,7 +2,7 @@
 
 set -e
 
-version=`$TEAMCITY_GIT_PATH rev-parse HEAD`
+version=`"$TEAMCITY_GIT_PATH" rev-parse HEAD`
 install_dir=$PWD/$version
 
 source st_set_swdev.sh

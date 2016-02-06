@@ -1,22 +1,37 @@
 #!/usr/bin/env python
 
+"""Check out submodules to the same branch as the root module."""
+
 import os
 import os.path
 import subprocess
-import argparse
+from urlparse import urlparse
 
-scriptdir = os.path.dirname(os.path.abspath(__file__))
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--update", help="Pull (rebase) the branch", action="store_true")
-parser.add_argument("branch", help="Submodule branch to check out")
-args = parser.parse_args()
+def main():
+    branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=script_dir).strip();
+    print "Checking out each submodule to %s..." % branch
 
-for f in os.listdir(scriptdir):
-    submoduledir = os.path.join(scriptdir, f)
-    if os.path.isdir(submoduledir):
-        if f[0:2] == "qt":
-            print "=== %s..." % f
-            if 0 == subprocess.call(["git", "checkout", "%s" % args.branch], cwd=submoduledir):
-                if args.update:
-                    subprocess.check_call(["git", "pull", "--rebase"], cwd=submoduledir)
+    for file_name in os.listdir(script_dir):
+        submodule_dir = os.path.join(script_dir, file_name)
+        if os.path.isdir(submodule_dir):
+            if file_name[0:2] == "qt":
+                submodule = file_name
+                print "=== Submodule \"%s\"..." % submodule
+
+                remote_url = subprocess.check_output(["git", "config", "--get", "remote.origin.url"], cwd=submodule_dir).strip()
+                remote_host = urlparse(remote_url).hostname
+                if remote_host == "github.com":
+                    if 0 == subprocess.call(['git', 'show-ref', '--verify', '--quiet', 'refs/heads/%s' % branch], cwd=submodule_dir):
+                        subprocess.check_call(["git", "checkout", "%s" % branch], cwd=submodule_dir)
+                        subprocess.check_call(["git", "fetch"], cwd=submodule_dir)
+                    else:
+                        print "ERROR: This submodule does not contain branch \"%s\"!" % branch
+                elif remote_host == "code.qt.io":
+                    print "This submodule has not been forked into our Git repository."
+                else:
+                    print "This submodule has an unknown remote URL: %s" % remote_url
+
+if __name__ == '__main__':
+    main()

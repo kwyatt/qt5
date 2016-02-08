@@ -23,11 +23,10 @@ def main():
                 remote_url = subprocess.check_output(["git", "config", "--get", "remote.origin.url"], cwd=submodule_dir).strip()
                 remote_host = urlparse(remote_url).hostname
                 if remote_host == "github.com":
-                    if 0 == subprocess.call(['git', 'show-ref', '--verify', '--quiet', 'refs/heads/%s' % branch], cwd=submodule_dir):
-                        subprocess.check_call(["git", "checkout", "%s" % branch], cwd=submodule_dir)
+                    if 0 == subprocess.call(["git", "checkout", "%s" % branch], cwd=submodule_dir):
                         subprocess.check_call(["git", "fetch"], cwd=submodule_dir)
                     else:
-                        print "ERROR: This submodule does not contain branch \"%s\"!" % branch
+                        print "ERROR: Could not check out branch \"%s\" from this submodule! If it doesn't exist, please create it." % branch
                 elif remote_host == "code.qt.io":
                     print "This submodule has not been forked into our Git repository."
                 else:

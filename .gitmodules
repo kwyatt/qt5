@@ -1,21 +1,21 @@
 [submodule "qtbase"]
 	path = qtbase
-	url = git://github.com/suitabletech/qtbase.git
+	url = https://github.com/suitabletech/qtbase.git
 [submodule "qtsvg"]
 	path = qtsvg
-	url = git://github.com/suitabletech/qtsvg.git
+	url = https://github.com/suitabletech/qtsvg.git
 [submodule "qtdeclarative"]
 	path = qtdeclarative
-	url = git://github.com/suitabletech/qtdeclarative.git
+	url = https://github.com/suitabletech/qtdeclarative.git
 [submodule "qtmultimedia"]
 	path = qtmultimedia
-	url = git://github.com/suitabletech/qtmultimedia.git
+	url = https://github.com/suitabletech/qtmultimedia.git
 [submodule "qttools"]
 	path = qttools
 	url = git://code.qt.io/qt/qttools.git
 [submodule "qtxmlpatterns"]
 	path = qtxmlpatterns
-	url = git://github.com/suitabletech/qtxmlpatterns.git
+	url = https://github.com/suitabletech/qtxmlpatterns.git
 [submodule "qttranslations"]
 	path = qttranslations
 	url = git://code.qt.io/qt/qttranslations.git
@@ -27,7 +27,7 @@
 	url = git://code.qt.io/qt/qtrepotools.git
 [submodule "qtwebkit"]
 	path = qtwebkit
-	url = git://github.com/suitabletech/qtwebkit.git
+	url = https://github.com/suitabletech/qtwebkit.git
 [submodule "qtqa"]
 	path = qtqa
 	url = git://code.qt.io/qt/qtqa.git
@@ -36,13 +36,13 @@
 	url = git://code.qt.io/qt/qtimageformats.git
 [submodule "qtgraphicaleffects"]
 	path = qtgraphicaleffects
-	url = git://github.com/suitabletech/qtgraphicaleffects.git
+	url = https://github.com/suitabletech/qtgraphicaleffects.git
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
-	url = git://github.com/suitabletech/qtquickcontrols.git
+	url = https://github.com/suitabletech/qtquickcontrols.git
 [submodule "qt3d"]
 	path = qt3d
-	url = git://github.com/suitabletech/qt3d.git
+	url = https://github.com/suitabletech/qt3d.git
 [submodule "qtandroidextras"]
 	path = qtandroidextras
 	url = git://code.qt.io/qt/qtandroidextras.git

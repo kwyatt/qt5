@@ -17,9 +17,9 @@ set THIRD_PARTY_DIRECTORY=%APPDATA%\bacon\thirdparty
 set ICU_DIRECTORY=%THIRD_PARTY_DIRECTORY%\icu4c\53.1-win32
 set SSL_DIRECTORY=%THIRD_PARTY_DIRECTORY%\libressl\2.2.1-win32
 
+xcopy /y /f /r "%ICU_DIRECTORY%\lib\*.dll" "%BUILD_DIRECTORY%\qtbase\bin\"
+xcopy /y /f /r "%SSL_DIRECTORY%\lib\*.dll" "%BUILD_DIRECTORY%\qtbase\bin\"
+
 call "%SOURCE_DIRECTORY%\configure" -debug-and-release -force-debug-info -developer-build -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "%ICU_DIRECTORY%\include" -I "%SSL_DIRECTORY%\include" -L "%ICU_DIRECTORY%\lib" -L "%SSL_DIRECTORY%\lib" -openssl-linked -nomake examples -nomake tests -no-compile-examples -icu -mp -angle OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
 set SOURCE_ROOT=%SOURCE_DIRECTORY%\qtwebkit\Source\WebCore
 call "%SOURCE_DIRECTORY%\jom\jom"
-
-xcopy /y /f /r "%ICU_DIRECTORY%\lib\*.dll" "%BUILD_DIRECTORY%\qtbase\bin"
-xcopy /y /f /r "%SSL_DIRECTORY%\lib\*.dll" "%BUILD_DIRECTORY%\qtbase\bin"

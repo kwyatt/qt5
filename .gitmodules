@@ -12,7 +12,7 @@
 	url = https://github.com/suitabletech/qtmultimedia.git
 [submodule "qttools"]
 	path = qttools
-	url = git://code.qt.io/qt/qttools.git
+	url = https://github.com/suitabletech/qttools.git
 [submodule "qtxmlpatterns"]
 	path = qtxmlpatterns
 	url = https://github.com/suitabletech/qtxmlpatterns.git

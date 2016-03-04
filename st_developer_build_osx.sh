@@ -18,7 +18,7 @@ cd "$BUILD_DIRECTORY"
 # - Without -no-framework, there are build problems with webkit.
 config=${1:-debug}
 
-"$SOURCE_DIRECTORY/configure" -$config -force-debug-info -developer-build -opensource -confirm-license -shared -platform macx-clang -I "$QT_BUILD_SWDEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -nomake examples -nomake tests -no-compile-examples -no-pch -no-feature-bearermanagement -no-framework
+"$SOURCE_DIRECTORY/configure" -$config -force-debug-info -developer-build -opensource -confirm-license -shared -platform macx-clang -D QT_OPENSSL_COMBINED=1 -I "$QT_BUILD_SWDEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -nomake examples -nomake tests -no-compile-examples -no-pch -no-feature-bearermanagement -no-framework
 
 export SOURCE_ROOT="$SOURCE_DIRECTORY/qtwebkit/Source/WebCore"
 make -j8

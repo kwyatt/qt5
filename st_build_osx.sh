@@ -7,7 +7,7 @@ install_dir=$PWD/$version
 
 source st_set_swdev.sh
 
-./configure -prefix $install_dir -release -opensource -confirm-license -shared -platform macx-clang -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -nomake examples -nomake tests -no-compile-examples -no-feature-bearermanagement
+./configure -prefix $install_dir -release -opensource -confirm-license -shared -platform macx-clang -D QT_OPENSSL_COMBINED=1 -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -nomake examples -nomake tests -no-compile-examples -no-feature-bearermanagement
 
 make -j8
 

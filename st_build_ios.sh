@@ -7,9 +7,7 @@ install_dir=$PWD/$version
 
 source st_set_swdev.sh
 
-# TODO: Remove OpenSSL in favor of securetransport starting with Qt 5.5?
-#./configure -prefix $install_dir -debug-and-release -commercial -confirm-license -xplatform macx-ios-clang -no-openssl -securetransport -nomake examples -nomake tests -skip qttranslations -skip qtwebkit -no-compile-examples -no-warnings-are-errors -no-feature-bearermanagement
-OPENSSL_LIBS=" " ./configure -prefix $install_dir -debug-and-release -commercial -confirm-license -xplatform macx-ios-clang -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl-linked -nomake examples -nomake tests -skip qttranslations -skip qtwebkit -no-compile-examples -no-warnings-are-errors -no-feature-bearermanagement
+./configure -prefix $install_dir -debug-and-release -commercial -confirm-license -xplatform macx-ios-clang -no-openssl -nomake examples -nomake tests -skip qttranslations -skip qtwebkit -no-compile-examples -no-warnings-are-errors -no-feature-bearermanagement -securetransport
 
 make -j8
 

@@ -19,9 +19,6 @@
 [submodule "qttranslations"]
 	path = qttranslations
 	url = git://code.qt.io/qt/qttranslations.git
-[submodule "qtdoc"]
-	path = qtdoc
-	url = git://code.qt.io/qt/qtdoc.git
 [submodule "qtrepotools"]
 	path = qtrepotools
 	url = git://code.qt.io/qt/qtrepotools.git

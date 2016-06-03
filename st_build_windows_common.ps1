@@ -1,13 +1,24 @@
-$osname = $args[0]
+$BUILD_DIRECTORY = $(get-location)
+echo "Build directory: $BUILD_DIRECTORY"
 
-# Instantiate web client for downloads
-$webclient = New-Object System.Net.WebClient
+$SOURCE_DIRECTORY = $(split-path $script:MyInvocation.MyCommand.Path)
+echo "Source directory: $SOURCE_DIRECTORY"
+
+$osname = $args[0]
+echo "OS: $osname"
 
 # Get the HEAD changeset which will be used to name the install folder
+(set-location $SOURCE_DIRECTORY)
 $version = $(& "$env:TEAMCITY_GIT_PATH" rev-parse HEAD)
+(set-location $BUILD_DIRECTORY)
+if (!($version)) {
+  echo "Error: could not get the revision."
+  exit 1
+}
+echo "Revision: $version"
 
 # Get sw-dev directory.
-$sw_dev = "$(get-location)\sw-dev"
+$sw_dev = "$BUILD_DIRECTORY\sw-dev"
 if (-not (test-path "$sw_dev" -pathtype container)) {
   $sw_dev = "$env:QT_BUILD_SWDEV"
   if (-not "$sw_dev") {
@@ -19,81 +30,49 @@ if (-not (test-path "$sw_dev" -pathtype container)) {
     exit 1;
   }
 }
+echo "SW-DEV: $sw_dev"
 
-echo "===== Downloading third-party dependencies..."
 if ($osname -eq "win32") {
-  cmake -D WIN32=1 -D X86=1 -D SW_DEV="$sw_dev" -P .\st_third_party.cmake
+  cmake -D WIN32=1 -D X86=1 -D SW_DEV="$sw_dev" -P "$SOURCE_DIRECTORY\st_third_party.cmake"
 } else {
-  cmake -D WIN32=1 -D SW_DEV="$sw_dev" -P .\st_third_party.cmake
+  cmake -D WIN32=1 -D SW_DEV="$sw_dev" -P "$SOURCE_DIRECTORY\st_third_party.cmake"
 }
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 $third_party_dir = "$env:APPDATA\bacon\thirdparty"
-$icu_dir = "$third_party_dir\icu4c\53.1-$osname"
-echo "===== Downloaded ICU4C to `"$icu_dir`""
 $libressl_dir = "$third_party_dir\libressl\2.2.1-$osname"
-echo "===== Downloaded LibreSSL to `"$libressl_dir`""
+echo "Downloaded LibreSSL to `"$libressl_dir`"."
 
-echo "===== Configuring Qt..."
-# We build with -no-icu and then enable it manually for QtWebKit. This means QtCore does not end up
-# with an ICU dependency, so we can ship installers without ICU (which is huge)
-.\configure.bat -prefix "$(get-location)\$version" -debug-and-release -force-debug-info -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "$icu_dir\include" -I "$libressl_dir\include" -L "$icu_dir\lib" -L "$libressl_dir\lib" -openssl-linked -nomake examples -nomake tests -no-compile-examples -no-icu -mp -angle OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
+& "$SOURCE_DIRECTORY\configure.bat" -prefix "$BUILD_DIRECTORY\$version" -debug-and-release -force-debug-info -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "$libressl_dir\include" -L "$libressl_dir\lib" -openssl-linked -nomake examples -nomake tests -skip qtwebkit -no-compile-examples -no-icu -mp -angle OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "Configuration complete."
 
-echo "===== Setting PATH..."
-# Set up PATH to include qtbase\lib and $icu_dir\bin, which seems to be necessary for Qt 5.1
-$env:PATH += ";$icu_dir\bin;$(get-location)\qtbase\lib"
-
-echo "===== Building Qt..."
-& .\jom\jom
+& "$SOURCE_DIRECTORY\jom\jom"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "Make complete."
 
-echo "===== Configuring QtWebKit..."
-# Configure QtWebKit separately, as it needs ICU
-cd qtwebkit
-& ..\qtbase\bin\qmake QT_CONFIG+=icu
-cd ..
+python "$SOURCE_DIRECTORY\st_gen_and_upload_symbols.py" --os $osname --swdev "$sw_dev"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "Symbol upload complete."
 
-echo "===== Building qtwebkit..."
-# Build QtWebKit separately, as it needs ICU
-cd qtwebkit
-& ..\jom\jom
-cd ..
+& "$SOURCE_DIRECTORY\jom\jom" install
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "Installation to staging directory complete."
 
-echo "===== Generating and uploading symbols..."
-python .\st_gen_and_upload_symbols.py --os $osname --swdev "$sw_dev"
+copy-item -verbose "$libressl_dir\lib\*.dll" ".\$version\bin"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "LibreSSL copy to staging directory complete."
 
-echo "===== Installing Qt..."
-& .\jom\jom install
-if ($LastExitCode -ne 0) { exit $LastExitCode }
-
-echo "===== Installing QtWebKit..."
-cd qtwebkit
-& ..\jom\jom install
-cd ..
-if ($LastExitCode -ne 0) { exit $LastExitCode }
-
-echo "===== Copying ICU..."
-copy-item -verbose $(ls "$icu_dir\lib\*.dll") "$version\bin"
-if ($LastExitCode -ne 0) { exit $LastExitCode }
-
-echo "===== Copying LibreSSL..."
-copy-item -verbose "$libressl_dir\lib\*.dll" "$version\bin"
-if ($LastExitCode -ne 0) { exit $LastExitCode }
-
-echo "===== Removing PDB files..."
 # Remove the pdb files from the build since the
 # symbols have already been converted and uploaded to the server
 get-childitem .\$version -include *.pdb -recurse | foreach ($_) {remove-item $_.fullname}
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "PDB file removal from staging directory complete."
 
-echo "===== Creating tarball..."
-cmake -E tar cvzf "qt-$version-$osname.tar.gz" "$version"
+cmake -E tar cvzf "qt-$version-$osname.tar.gz" ".\$version"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
+echo "Tarball generation complete."
 
-echo "===== Deleting version folder..."
 # Delete the version folder, since the way teamcity cleans things having a folder that's
 # also a revision is bad
 remove-item -force -recurse .\$version
+echo "Staging directory deletion complete."

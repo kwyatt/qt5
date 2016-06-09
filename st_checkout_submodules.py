@@ -48,21 +48,21 @@ def run(args):
                 remote_url = subprocess.check_output(["git", "config", "--get", "remote.origin.url"], cwd=submodule_dir).strip()
                 remote_host = urlparse(remote_url).hostname
                 if remote_host == "github.com":
-                    if 0 == subprocess.call(["git", "checkout", "%s" % branch], cwd=submodule_dir):
-                        subprocess.check_call(["git", "fetch"], cwd=submodule_dir)
-                    elif args.create:
-                        print "Could not check out branch \"%s\" from this submodule. Attempting to create branch from upstream..." % branch
+                    if 0 != subprocess.call(["git", "checkout", "%s" % branch], cwd=submodule_dir):
+                        if not args.create:
+                            print "ERROR: Could not check out branch \"%s\" from this submodule! If it doesn't exist, please create it." % branch
+                            print "You can create the branch automatically by calling this script with the \"--create\" argument."
+                            continue
 
+                        print "Could not check out branch \"%s\" from this submodule. Attempting to create branch from upstream..." % branch
                         subprocess.check_call(["git", "fetch", "--tags", "git://code.qt.io/qt/%s.git" % submodule], cwd=submodule_dir)
-                        if 0 == subprocess.call(["git", "checkout", upstream_tag], cwd=submodule_dir):
-                            subprocess.check_call(["git", "checkout", "-b", branch], cwd=submodule_dir)
-                            print "Created branch \"%s\" from upstream tag %s." % (branch, upstream_tag)
-                            print "*IMPORTANT*: Ensure that all of our changes from the previous version are cherry-picked into this new branch!"
-                        else:
+                        if 0 != subprocess.call(["git", "checkout", upstream_tag], cwd=submodule_dir):
                             print "No upstream tag \"%s\" in this submodule." % upstream_tag
-                    else:
-                        print "ERROR: Could not check out branch \"%s\" from this submodule! If it doesn't exist, please create it." % branch
-                        print "You can create the branch automatically by calling this script with the \"--create\" argument."
+                            continue
+
+                        subprocess.check_call(["git", "checkout", "-b", branch], cwd=submodule_dir)
+                        print "Created branch \"%s\" from upstream tag %s." % (branch, upstream_tag)
+                        print "*IMPORTANT*: Ensure that all of our changes from the previous version are cherry-picked into this new branch!"
 
                 elif remote_host == "code.qt.io":
                     print "This submodule has not been forked into our Git repository. Attempting to check out upstream tag %s..." % upstream_tag

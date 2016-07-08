@@ -33,10 +33,10 @@ echo "SW-DEV: $SW_DEV"
 "$SOURCE_DIRECTORY/qtbase/nacl-configure" ${plat}_pnacl release x86_64_translated -prefix "$BUILD_DIRECTORY/$version" -commercial -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl-linked -nacl-secondary-thread
 echo "Configuration complete."
 
-make -j6 module-qtbase module-qtdeclarative module-qtmultimedia module-qt3d module-qtsvg module-qtxmlpatterns module-qtquickcontrols module-qtgraphicaleffects
+make -j6 module-qtbase module-qtdeclarative module-qtmultimedia module-qtsvg module-qtxmlpatterns module-qtquickcontrols module-qtgraphicaleffects
 echo "Make complete."
 
-make module-qtbase-install_subtargets module-qtdeclarative-install_subtargets module-qtmultimedia-install_subtargets module-qt3d-install_subtargets module-qtsvg-install_subtargets module-qtxmlpatterns-install_subtargets module-qtquickcontrols-install_subtargets module-qtgraphicaleffects-install_subtargets
+make module-qtbase-install_subtargets module-qtdeclarative-install_subtargets module-qtmultimedia-install_subtargets module-qtsvg-install_subtargets module-qtxmlpatterns-install_subtargets module-qtquickcontrols-install_subtargets module-qtgraphicaleffects-install_subtargets
 echo "Installation to staging directory complete."
 
 tar cvzf qt-$version-$os-nacl.tar.gz ./$version

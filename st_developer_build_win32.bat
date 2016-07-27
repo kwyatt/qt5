@@ -23,7 +23,7 @@ echo "SSL directory: %SSL_DIRECTORY%"
 xcopy /y /f /r "%SSL_DIRECTORY%\lib\*.dll" "%BUILD_DIRECTORY%\qtbase\bin\"
 echo "Copy of SSL libraries into bin complete."
 
-call "%SOURCE_DIRECTORY%\configure" -debug-and-release -force-debug-info -developer-build -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "%SSL_DIRECTORY%\include" -L "%SSL_DIRECTORY%\lib" -openssl-linked -nomake examples -nomake tests -skip qtwebkit -no-compile-examples -no-icu -mp -angle OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
+call "%SOURCE_DIRECTORY%\configure" -debug-and-release -force-debug-info -developer-build -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "%SSL_DIRECTORY%\include" -L "%SSL_DIRECTORY%\lib" -openssl-linked -nomake examples -nomake tests -skip qtwebkit -no-compile-examples -no-icu -mp -opengl dynamic OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
 echo "Configuration complete."
 
 call "%SOURCE_DIRECTORY%\jom\jom"

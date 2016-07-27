@@ -33,7 +33,6 @@ echo "SW-DEV: $SW_DEV"
 "$SOURCE_DIRECTORY/qtbase/nacl-configure" ${plat}_pnacl release 64 x86_64 -prefix "$BUILD_DIRECTORY/$version" -commercial -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl-linked
 echo "Configuration complete."
 
-#make -j6 module-qtbase module-qtdeclarative module-qtmultimedia module-qt3d module-qtsvg module-qtxmlpatterns module-qtquickcontrols module-qtgraphicaleffects
 make -j6 module-qtbase module-qtdeclarative module-qtmultimedia module-qtsvg module-qtxmlpatterns module-qtquickcontrols module-qtgraphicaleffects
 echo "Make complete."
 

@@ -39,7 +39,7 @@
 	url = https://github.com/suitabletech/qtquickcontrols.git
 [submodule "qt3d"]
 	path = qt3d
-	url = https://github.com/suitabletech/qt3d.git
+	url = git://code.qt.io/qt/qt3d.git
 [submodule "qtandroidextras"]
 	path = qtandroidextras
 	url = git://code.qt.io/qt/qtandroidextras.git

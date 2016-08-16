@@ -46,7 +46,7 @@ echo "Downloaded LibreSSL to `"$libressl_dir`"."
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "Configuration complete."
 
-& "$SOURCE_DIRECTORY\jom\jom"
+jom
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "Make complete."
 
@@ -54,7 +54,7 @@ python "$SOURCE_DIRECTORY\st_gen_and_upload_symbols.py" --os $osname --swdev "$s
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "Symbol upload complete."
 
-& "$SOURCE_DIRECTORY\jom\jom" install
+jom install
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "Installation to staging directory complete."
 

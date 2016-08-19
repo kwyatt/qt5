@@ -37,9 +37,3 @@
 [submodule "qtandroidextras"]
 	path = qtandroidextras
 	url = git://code.qt.io/qt/qtandroidextras.git
-[submodule "qtscript"]
-  path = qtscript
-  url = git://code.qt.io/qt/qtscript.git
-[submodule "qtmacextras"]
-  path = qtmacextras
-  url = git://code.qt.io/qt/qtmacextras.git

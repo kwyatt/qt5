@@ -22,9 +22,6 @@
 [submodule "qtrepotools"]
 	path = qtrepotools
 	url = git://code.qt.io/qt/qtrepotools.git
-[submodule "qtwebkit"]
-	path = qtwebkit
-	url = https://github.com/suitabletech/qtwebkit.git
 [submodule "qtqa"]
 	path = qtqa
 	url = git://code.qt.io/qt/qtqa.git
@@ -37,9 +34,6 @@
 [submodule "qtquickcontrols"]
 	path = qtquickcontrols
 	url = https://github.com/suitabletech/qtquickcontrols.git
-[submodule "qt3d"]
-	path = qt3d
-	url = git://code.qt.io/qt/qt3d.git
 [submodule "qtandroidextras"]
 	path = qtandroidextras
 	url = git://code.qt.io/qt/qtandroidextras.git

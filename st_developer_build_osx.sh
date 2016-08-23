@@ -17,7 +17,7 @@ echo "Source directory: $SOURCE_DIRECTORY"
 config=${1:-debug}
 echo "Configuration: $config"
 
-"$SOURCE_DIRECTORY/configure" -$config -force-debug-info -developer-build -opensource -confirm-license -shared -platform macx-clang -no-openssl -nomake examples -nomake tests -skip qtwebkit -no-compile-examples -no-icu -no-pch -no-feature-bearermanagement -no-framework -securetransport
+"$SOURCE_DIRECTORY/configure" -$config -force-debug-info -developer-build -opensource -confirm-license -shared -platform macx-clang -no-openssl -nomake examples -nomake tests -no-compile-examples -no-icu -no-pch -no-feature-bearermanagement -no-framework -securetransport
 echo "Configuration complete."
 
 make -j8

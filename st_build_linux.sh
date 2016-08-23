@@ -42,7 +42,7 @@ echo "Revision: $version"
 source "$SOURCE_DIRECTORY/st_set_swdev.sh"
 echo "SW-DEV: $SW_DEV"
 
-"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform linux-g++-$bits -nomake examples -nomake tests  -skip qtwebkit -no-compile-examples -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-icu -no-feature-bearermanagement -no-dbus
+"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform linux-g++-$bits -nomake examples -nomake tests -no-compile-examples -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-icu -no-feature-bearermanagement -no-dbus
 echo "Configuration complete."
 
 make -j8

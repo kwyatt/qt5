@@ -22,7 +22,7 @@ echo "Revision: $version"
 source "$SOURCE_DIRECTORY/st_set_swdev.sh"
 echo "SW-DEV: $SW_DEV"
 
-"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform macx-clang -no-openssl -nomake examples -nomake tests -skip qtwebkit -no-compile-examples -no-icu -no-feature-bearermanagement -securetransport
+"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform macx-clang -no-openssl -nomake examples -nomake tests -no-compile-examples -no-icu -no-feature-bearermanagement -securetransport
 echo "Configuration complete."
 
 make -j8

@@ -22,7 +22,7 @@ if tc_conf:
     if (tc_conf.find('x86') != -1):
       args.arch = 'x86'
     elif (tc_conf.find('arm') != -1):
-      args.arch = 'armebi-v7'
+      args.arch = 'armeabi-v7a'
   if (tc_conf.find('nacl') != -1):
     args.nacl = True
   if (tc_conf.find('ios') != -1):

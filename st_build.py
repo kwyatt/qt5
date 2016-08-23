@@ -16,6 +16,18 @@ args = parser.parse_args()
 
 tc_conf = os.environ.get('TEAMCITY_BUILDCONF_NAME', None)
 
+if tc_conf:
+  if (tc_conf.find('android') != -1):
+    args.android = True
+    if (tc_conf.find('x86') != -1):
+      args.arch = 'x86'
+    elif (tc_conf.find('arm') != -1):
+      args.arch = 'armeabi-v7a'
+  if (tc_conf.find('nacl') != -1):
+    args.nacl = True
+  if (tc_conf.find('ios') != -1):
+    args.ios = True
+  
 scriptdir = path.dirname(path.abspath(__file__))
 windows = platform.system() == 'Windows'
 linux = platform.system() == 'Linux'

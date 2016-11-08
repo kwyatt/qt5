@@ -42,7 +42,7 @@ $third_party_dir = "$env:APPDATA\bacon\thirdparty"
 $libressl_dir = "$third_party_dir\libressl\2.2.1-$osname"
 echo "Downloaded LibreSSL to `"$libressl_dir`"."
 
-& "$SOURCE_DIRECTORY\configure.bat" -prefix "$BUILD_DIRECTORY\$version" -debug-and-release -force-debug-info -opensource -confirm-license -shared -platform win32-msvc2013 -D QT_NO_BEARERMANAGEMENT -I "$libressl_dir\include" -L "$libressl_dir\lib" -openssl-linked -nomake examples -nomake tests -no-compile-examples -no-icu -mp -opengl dynamic OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
+& "$SOURCE_DIRECTORY\configure.bat" -prefix "$BUILD_DIRECTORY\$version" -debug-and-release -force-debug-info -opensource -confirm-license -shared -platform win32-msvc2015 -D QT_NO_BEARERMANAGEMENT -I "$libressl_dir\include" -L "$libressl_dir\lib" -openssl-linked -nomake examples -nomake tests -no-compile-examples -no-icu -mp -opengl dynamic OPENSSL_LIBS="-llibssl-33 -llibcrypto-34 -llibtls-4"
 if ($LastExitCode -ne 0) { exit $LastExitCode }
 echo "Configuration complete."
 

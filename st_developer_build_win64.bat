@@ -15,7 +15,7 @@ set SOURCE_DIRECTORY=%~dp0
 if %SOURCE_DIRECTORY:~-1%==\ set SOURCE_DIRECTORY=%SOURCE_DIRECTORY:~0,-1%
 echo "Source directory: %SOURCE_DIRECTORY%"
 
-cmake -D WIN32=1 -D X86=1 -D SW_DEV="%QT_BUILD_SWDEV%" -P "%SOURCE_DIRECTORY%\st_third_party.cmake"
+cmake -D WIN32=1 -D SW_DEV="%QT_BUILD_SWDEV%" -P "%SOURCE_DIRECTORY%\st_third_party.cmake"
 set THIRD_PARTY_DIRECTORY=%APPDATA%\bacon\thirdparty
 set SSL_DIRECTORY=%THIRD_PARTY_DIRECTORY%\libressl\2.2.1-win32
 echo "SSL directory: %SSL_DIRECTORY%"

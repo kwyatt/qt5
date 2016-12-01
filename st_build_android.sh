@@ -28,7 +28,7 @@ echo "Revision: $version"
 source "$SOURCE_DIRECTORY/st_set_swdev.sh"
 echo "SW-DEV: $SW_DEV"
 
-"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -commercial -confirm-license -shared -xplatform android-g++ -D QT_OPENSSL_COMBINED=1 -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl -nomake examples -nomake tests -skip qttranslations -no-compile-examples -no-dbus -no-feature-bearermanagement -no-icu -no-warnings-are-errors -android-sdk $ANDROID_SDK_ROOT -android-ndk $ANDROID_NDK_ROOT -android-ndk-host $ANDROID_NDK_HOST -android-arch $arch -android-toolchain-version 4.8
+"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -commercial -confirm-license -shared -xplatform android-g++ -D QT_OPENSSL_COMBINED=1 -I "$SW_DEV/stacks/texas_videoconf/third_party/third_party/openssl/openssl/include" -openssl -nomake examples -nomake tests -skip qttranslations -no-compile-examples -no-dbus -no-feature-bearermanagement -no-icu -no-warnings-are-errors -android-sdk $ANDROID_SDK_ROOT -android-ndk $ANDROID_NDK_ROOT -android-ndk-host $ANDROID_NDK_HOST -android-arch $arch -android-toolchain-version 4.9
 echo "Configuration complete."
 
 make -j8

@@ -67,9 +67,14 @@ def run(args):
                 elif remote_host == "code.qt.io":
                     print "This submodule has not been forked into our Git repository. Attempting to check out upstream tag %s..." % upstream_tag
                     if 0 != subprocess.call(["git", "checkout", upstream_tag], cwd=submodule_dir):
-                        print "No upstream tag \"%s\" in this submodule." % upstream_tag
+                        print "No upstream tag \"%s\" in this submodule. Attempting to check out upstream branch \"master\"..." % upstream_tag
+                        if 0 != subprocess.call(["git", "checkout", "master"], cwd=submodule_dir):
+                            print "No upstream branch \"master\" in this submodule."
+
                 else:
                     print "ERROR: This submodule has an unknown remote host. URL: %s" % remote_url
+
+    print
 
 if __name__ == '__main__':
     sys.exit(run(parse_args(sys.argv[1:])))

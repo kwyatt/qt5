@@ -25,6 +25,7 @@ echo "SW-DEV: $SW_DEV"
 # Both debug and release libraries are needed.
 # Otherwise, sw-dev CMake fails at qtbase/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:15 with:
 # The imported target "Qt5::Core" references the file "lib/libQt5Core_debug.a".
+# https://bugreports.qt.io/browse/QTBUG-48348
 "$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -debug-and-release -commercial -confirm-license -xplatform macx-ios-clang -no-openssl -nomake examples -nomake tests -skip qttranslations -no-compile-examples -no-icu -no-warnings-are-errors -no-feature-bearermanagement -securetransport
 echo "Configuration complete."
 

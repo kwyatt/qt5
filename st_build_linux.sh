@@ -1,5 +1,21 @@
 #!/bin/bash
 
+function check_call() {
+  if [ -z "$1" ]; then
+    echo "Please pass a command to check_call"
+    exit 1
+  fi
+
+  echo "Running $@"
+  $@
+  exit_code=$?
+  if [ "$exit_code" -ne "0" ]; then
+    echo "Command: $1 failed with code $exit_code"
+    exit $exit_code
+  else
+    return $exit_code
+  fi
+}
 set -e
 
 BUILD_DIRECTORY=`pwd -P`
@@ -42,22 +58,22 @@ echo "Revision: $version"
 source "$SOURCE_DIRECTORY/st_set_swdev.sh"
 echo "SW-DEV: $SW_DEV"
 
-"$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform linux-g++-$bits -nomake examples -nomake tests -no-compile-examples -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-icu -no-feature-bearermanagement -no-dbus
+check_call "$SOURCE_DIRECTORY/configure" -prefix "$BUILD_DIRECTORY/$version" -release -opensource -confirm-license -shared -platform linux-g++-$bits -nomake examples -nomake tests -no-compile-examples -xkb -xinput -xrender -xrandr -xfixes -xcursor -xinerama -xshape -opengl -fontconfig -qt-xcb -gtkstyle -qt-libjpeg -no-icu -no-feature-bearermanagement -no-dbus
 echo "Configuration complete."
 
-make -j8
+check_call make -j8
 echo "Make complete."
 
-python "$SOURCE_DIRECTORY/st_gen_and_upload_symbols.py" --os linux --swdev "$SW_DEV"
+check_call python "$SOURCE_DIRECTORY/st_gen_and_upload_symbols.py" --os linux --swdev "$SW_DEV"
 echo "Symbol upload complete."
 
-make install
+check_call make install
 echo "Installation to staging directory complete."
 
-tar cvzf qt-$version-linux-$arch.tar.gz ./$version
+check_call tar cvzf qt-$version-linux-$arch.tar.gz ./$version
 echo "Tarball generation complete."
 
 # Delete the version folder, since the way teamcity cleans things having a folder that's
 # also a revision is bad
-rm -rf ./$version
+check_call rm -rf ./$version
 echo "Staging directory deletion complete."
